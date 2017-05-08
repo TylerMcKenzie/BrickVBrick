@@ -4,6 +4,8 @@ var express = require('express');
 // Sessions
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+
+// Handles auth signin and signout
 var passport = require('passport');
 
 // Flash to send messages to client
@@ -61,6 +63,9 @@ app.use(passport.initialize());
 
 // Take over session management from EXPRESS SESSION
 app.use(passport.session())
+
+// ## VIEW ENGINE ##
+app.use('view-engine', 'ejs')
 
 // ## PUBLIC STATIC folder client will read from ##
 

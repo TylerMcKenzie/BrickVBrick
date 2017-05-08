@@ -15,6 +15,18 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING,
       allowNull: DataTypes.FALSE
+    },
+    gamesPlayed: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    gamesWon: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    gamesLost: {
+      type: Sequelize.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
@@ -34,6 +46,10 @@ module.exports = function(sequelize, DataTypes) {
       },
       validPassword: function(password) {
         return bcrypt.compareSync(password, this.password); // this will compare the given PASSWORD with this instance of USER's PASSWORD and return true or false
+      },
+      winLoseRatio: function() {
+        var ratio = (this.gamesWon / (this.gamesWon+this.gamesLost));
+        return ratio;
       }
     }
   });

@@ -1,0 +1,16 @@
+Sprint for 5/8/2017
+
+Finish Routes not done on Sunday 5/7
+
+DATABASE
+  - Migrate Tables and test Models
+  - Models
+    - Test(TEST TEST TEST)
+    - Views for Models
+      - User Profile & ScoreBoard
+VIEWS
+  - Signin/Signout -- same page for simplicity's sake
+  - User profile
+  - All Scores
+TEST Routes
+  - Test routing functionality and responses
