@@ -24,7 +24,7 @@ Sunday 5/7/17 -
   - Spin up Node app with server and routes.
       - Auth
         - Passport Js
-        - Express Session?(Don't waste time on this)
+        - Express Session?(Don't waste time on this) -- YES
 
       - Routes
           - User

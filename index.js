@@ -67,7 +67,7 @@ app.use(passport.session())
 // Set static directory to public which will be compiled by Webpack
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Here I run the exported function from the routing section of the server folder and pass it the EXPRESS APP and the configured PASSPORT variable
+// Here I run the exported function from the routing section of the server folder and pass it the EXPRESS APP and the configured PASSPORT variable for authentication
 require('./server/routes')(app, passport);
 
 // Start server listening on the PORT variable
