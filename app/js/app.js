@@ -1,1 +1,2 @@
-alert('this is javascript babel');
+import React from 'react'
+import ReactDOM from 'react-dom'

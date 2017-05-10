@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 // ENV
-var env = process.env.NODE_ENV;
+var env = 'dev';
 
 // For Route Logging
 var morgan = require('morgan');
@@ -41,6 +41,9 @@ require('./server/config/passport')(passport);
 
 // ## DEV ##
 
+console.log(' ___--- ENV ---___ ');
+console.log(process.env.NODE_ENV);
+console.log(' ___------___ ');
 if(env === 'dev') {
   // Asset compiler and middleware for Express compatability
   var webpack = require('webpack');
@@ -50,13 +53,11 @@ if(env === 'dev') {
 
   var compiler = webpack(webpackConfig);
 
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: config.output.publicPath,
-    stats: { color: true }
-  }));
+  app.use(webpackHotMiddleware(compiler));
 
-  app.use(webpackHotMiddleware(compiler, {
-    log: console.log
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: { color: true }
   }));
 
   // Log routing to console
@@ -78,6 +79,10 @@ app.use(bodyParser.json());
 // If there were more config I need to pass to BODYPARSER I would move it to an easier to see variable
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// ## VIEW ENGINE ##
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'server/views'));
+
 // ## Session management ##
 
 // Use cookie parser to parse cookise for express-session
@@ -96,8 +101,6 @@ app.use(passport.session());
 // Flash for messages sent from server
 app.use(flash())
 
-// ## VIEW ENGINE ##
-app.use('view-engine', 'ejs');
 
 // Here I run the exported function from the routing section of the server folder and pass it the EXPRESS ROUTER and the configured PASSPORT variable for authentication
 require('./server/routes')(app, passport);

@@ -8,7 +8,8 @@ module.exports = {
       './js/app.js'
     ],
     vendor: [
-      'react'
+      'react',
+      'react-dom'
     ]
   },
   output: {

@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.production.config.js -p",
-    "dev": "node index.js NODE_ENV=dev",
+    "dev": "node server.js",
     "prestart": "rimraf public && npm run build",
-    "start": "node index.js NODE_ENV=prod"
+    "start": "NODE_ENV=prod node server.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "sequelize": "^3.30.4"
   }
 }

@@ -32,7 +32,7 @@ module.exports = {
           }
 
           return user.update({
-                        gamesLost: user.gamesLost++
+                        gamesLost: user.gamesLost++,
                         gamesPlayed: user.gamesPlayed++
                       })
                       .then(function(user) {
@@ -100,7 +100,7 @@ module.exports = {
                      .then(function() {
                        return res.status(204).send({ successMessage: 'User Deactivated.' });
                      })
-                     .catch(funciton(err) {
+                     .catch(function(err) {
                        return res.status(400).send(err);
                      });
         })

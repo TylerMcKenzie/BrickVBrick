@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
       var signInFlash = req.flash('signinMessage');
       var signUpFlash = req.flash('signupMessage');
 
-      res.render(views('signin'), { signUpMessage: signUpFlash, signInMessage: signInFlash });
+      res.render('user/signin', { signUpMessage: signUpFlash, signInMessage: signInFlash });
     }
   });
 
@@ -57,7 +57,7 @@ module.exports = function(app, passport) {
 
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
-    res.render(views('user/profile'), { user: req.user });
+    res.render('user/profile', { user: req.user });
   });
 
   //Update user attributes found with param :id
