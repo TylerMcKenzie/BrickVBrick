@@ -17,15 +17,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: DataTypes.FALSE
     },
     gamesPlayed: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     gamesWon: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     gamesLost: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false
     }
   }, {
@@ -39,7 +39,7 @@ module.exports = function(sequelize, DataTypes) {
           as: 'scores' // this will rename the asociation as SCORES so the asociation can be called as user.scores
         });
       }
-    }
+    },
     instanceMethods: {
       generateHash: function(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null); // This will hash the given password and return that hash

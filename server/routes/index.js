@@ -3,7 +3,7 @@ var usersController = require('../controllers/users');
 var scoresController = require('../controllers/scores');
 
 // Signin helper
-function isSignedIn(req, res, next) {
+var isSignedIn = function(req, res, next) {
   if(req.isAuthenticated()) {
     next();
   } else {
@@ -14,7 +14,7 @@ function isSignedIn(req, res, next) {
 // View url cuz Im lazy
 var views = function(url) {
   return '../views/'+url;
-}
+};
 
 // Apply controller functions to correct routes
 module.exports = function(app, passport) {
@@ -47,7 +47,7 @@ module.exports = function(app, passport) {
   // ## SIGN UP ROUTES ##
 
   // Use passport as route function to signup user and handle redirect
-  app.post('signup', passport.authenticate('local-signup', {
+  app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/activate',
     failureRedirect: '/signin',
     failureFlash: true
@@ -57,16 +57,13 @@ module.exports = function(app, passport) {
 
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
-    res.render(views('user/profile'), { user: req.user })
+    res.render(views('user/profile'), { user: req.user });
   });
 
   //Update user attributes found with param :id
-  app.put('user/:id', usersController.update);
+  app.put('/user/:id', usersController.update);
 
   // Delete user subbed deactivate
-  app.delete('user/:id', usersController.deactivate);
-
-  // 
-
+  app.delete('/user/:id', usersController.deactivate);
 
 };
