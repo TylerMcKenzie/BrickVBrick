@@ -3,8 +3,11 @@ var path = require('path');
 
 module.exports = {
   context: path.join(__dirname, 'app'),
+  devtool: 'source-map',
   entry: {
     app: [
+      'webpack/hot/dev-server',
+      'webpack-hot-middleware/client',
       './js/app.js'
     ],
     vendor: [
@@ -12,8 +15,9 @@ module.exports = {
     ]
   },
   output: {
-    filename: 'js/app.js',
-    path: path.join(__dirname, 'public')
+    filename: 'app.bundle.js',
+    path: '/',
+    publicPath: "http://localhost:3000/public/"
   },
   module: {
     loaders: [
@@ -25,6 +29,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
-  ]
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' })
+  ],
+  target: 'web'
 }
