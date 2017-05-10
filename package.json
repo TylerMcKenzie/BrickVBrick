@@ -4,7 +4,10 @@
   "description": "Competative brick game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,7 @@
     "webpack": "^2.5.1"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
     "connect-flash": "^0.1.1",
@@ -36,6 +40,7 @@
     "passport-local": "^1.0.0",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
+    "react": "^15.5.4",
     "sequelize": "^3.30.4"
   }
 }

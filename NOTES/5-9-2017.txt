@@ -1,0 +1,14 @@
+Whew. Super busy today. Late start BEHIND. NO REST FOR THE WEARY.
+
+Routing --
+  -Finish Testing routes.
+
+Views --
+  - Broke down. Used ReactJs as front-end framework.
+  - Sorry not sorry
+
+Storage --
+  - Try some S3? Maybe a later Feature for user Profiles?
+
+GENERAL COMMENTS ---
+  - These are getting smaller because setup is wrapping up. Will be scary again when developing the game.
