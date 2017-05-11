@@ -3,7 +3,7 @@ var User = require('../models').User;
 
 module.exports = {
   addGameWon: function(req, res) {
-    User.findById(req.params.id)
+    return User.findById(req.params.id)
         .then(function(user) {
           if(!user) {
             return res.status(404).send({ errorMessage: 'User Not Found.' })
@@ -25,7 +25,7 @@ module.exports = {
         })
   },
   addGameLost: function(req, res) {
-    User.findById(req.params.id)
+    return User.findById(req.params.id)
         .then(function(user) {
           if(!user) {
             return res.status(404).send({ errorMessage: 'User Not Found.' })
@@ -47,7 +47,7 @@ module.exports = {
         })
   },
   addGamePlayed: function(req, res) {
-    User.findById(req.params.id)
+    return User.findById(req.params.id)
         .then(function(user) {
           if(!user) {
             return res.status(404).send({ errorMessage: 'User Not Found.' })
@@ -67,45 +67,62 @@ module.exports = {
           return res.status(400).send(err);
         })
   },
+  retrieve: function(req, res) {
+    if(req.user.id == req.params.id) {
+      res.redirect('/profile');
+    } else {
+      return User.findById(req.params.id)
+                 .then(function(user) {
+                   if(user) {
+                     res.render('user/profile', { user: user });
+                   } else {
+                     res.status(404).send({ message: "User does not exits."})
+                   }
+                 })
+                 .catch(function(err) {
+                   res.status(400).send(err);
+                 });
+    }
+  },
   update: function(req, res) {
-    User.findById(req.params.id)
-        .then(function(user) {
-          if(!user) {
-            return res.status(404).send({ errorMessage: 'User Not Found.' })
-          }
+    return User.findById(req.params.id)
+          .then(function(user) {
+            if(!user) {
+              return res.status(404).send({ errorMessage: 'User Not Found.' })
+            }
 
-          return user.update({
-                        username: req.body.username || user.username,
-                        email: req.body.email || user.email,
-                      })
-                      .then(function(user) {
-                        return res.status(200).send(user);
-                      })
-                      .catch(function(err) {
-                        return res.status(400).send(err);
-                      });
-        })
-        .catch(function(err) {
-          return res.status(400).send(err);
-        })
+            return user.update({
+                          username: req.body.username || user.username,
+                          email: req.body.email || user.email,
+                        })
+                        .then(function(user) {
+                          return res.status(200).send(user);
+                        })
+                        .catch(function(err) {
+                          return res.status(400).send(err);
+                        });
+          })
+          .catch(function(err) {
+            return res.status(400).send(err);
+          })
   },
   deactivate: function(req, res) {
-    User.findById(req.params.id)
-        .then(function(user) {
-          if(!user) {
-            return res.status(404).send({ errorMessage: 'User Not Found.' })
-          }
+    return User.findById(req.params.id)
+          .then(function(user) {
+            if(!user) {
+              return res.status(404).send({ errorMessage: 'User Not Found.' })
+            }
 
-          return user.destroy()
-                     .then(function() {
-                       return res.status(204).send({ successMessage: 'User Deactivated.' });
-                     })
-                     .catch(function(err) {
-                       return res.status(400).send(err);
-                     });
-        })
-        .catch(function(err) {
-          return res.status(400).send(err);
-        })
+            return user.destroy()
+                       .then(function() {
+                         return res.status(204).send({ successMessage: 'User Deactivated.' });
+                       })
+                       .catch(function(err) {
+                         return res.status(400).send(err);
+                       });
+          })
+          .catch(function(err) {
+            return res.status(400).send(err);
+          })
   }
 }

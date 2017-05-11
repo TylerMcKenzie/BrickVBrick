@@ -18,15 +18,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     gamesPlayed: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      defaultValue: 0
     },
     gamesWon: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      defaultValue: 0
     },
     gamesLost: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      defaultValue: 0
     }
   }, {
     classMethods: {

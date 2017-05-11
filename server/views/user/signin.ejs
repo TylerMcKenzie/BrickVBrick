@@ -4,7 +4,15 @@
     <%- include('../partials/page/head') %>
   </head>
   <body>
-    <%- include('../partials/forms/signin') %>
+    <div class="user-forms-container">
+      <div class="signin-container">
+        <%- include('../partials/forms/signin') %>
+      </div>
+
+      <div class="signup-container">
+        <%- include('../partials/forms/signup') %>
+      </div>
+    </div>
 
     <%- include('../partials/page/scripts') %>
   </body>

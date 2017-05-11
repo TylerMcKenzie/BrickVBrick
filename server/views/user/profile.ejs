@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/page/head') %>
+  </head>
+  <body>
+    <%- include('../partials/page/nav') %>
+
+    <div class="profile-container">
+      <div class="profile-name">
+        <h3>Username: <%= user.username %></h3>
+      </div>
+
+      <div class="stats-container">
+        <div class="title">
+          <h4>Games Won</h4>
+        </div>
+
+        <div class="games-won">
+          <p>
+            <%= user.gamesWon %>
+          </p>
+        </div>
+
+        <div class="title">
+          <h4>Games Lost</h4>
+        </div>
+
+        <div class="games-lost">
+          <p>
+            <%= user.gamesLost %>
+          </p>
+        </div>
+
+        <div class="title">
+          <h4>Total Games Played</h4>
+        </div>
+
+        <div class="games-played">
+          <p>
+            <%= user.gamesPlayed %>
+          </p>
+        </div>
+
+        <% if(user.winLoseRatio()) { %>
+          <div class="ratio">
+            <p>
+              <%= user.winLoseRatio() %>
+            </p>
+          </div>
+        <% }; %>
+      </div>
+    </div>
+
+    <!-- <div class="profile-scores">
+      <ul>
+        <% user.getScores().then(function(scores) { %>
+          <% if(scores) { %>
+            <% for(var i=0; i<scores.length;i++) { %>
+              <li>
+                <%= scores[i] %>
+              </li>
+            <% } %>
+          <% } else { %>
+            <li>No scores Yet</li>
+          <% } %>
+        <% }); %>
+      </ul>
+    </div> -->
+
+    <%- include('../partials/page/scripts') %>
+  </body>
+</html>

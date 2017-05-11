@@ -5,22 +5,19 @@ var scoresController = require('../controllers/scores');
 // Signin helper
 var isSignedIn = function(req, res, next) {
   if(req.isAuthenticated()) {
+    res.locals.current_user = req.user;
+    res.locals.signedIn = true;
     next();
   } else {
     res.redirect('/signin');
   }
 };
 
-// View url cuz Im lazy
-var views = function(url) {
-  return '../views/'+url;
-};
-
 // Apply controller functions to correct routes
 module.exports = function(app, passport) {
   // Root redirects to signin/signup
   app.get('/', isSignedIn, function(req, res) {
-    res.redirect('/profile');
+    res.redirect('/profile', { user: res.locals.current_user });
   });
 
   // ## SESSION ROUTES ##
@@ -48,7 +45,7 @@ module.exports = function(app, passport) {
 
   // Use passport as route function to signup user and handle redirect
   app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/activate',
+    successRedirect: '/profile',
     failureRedirect: '/signin',
     failureFlash: true
   }));
@@ -57,13 +54,26 @@ module.exports = function(app, passport) {
 
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
-    res.render('user/profile', { user: req.user });
+    res.render('user/profile', { user: res.locals.current_user });
   });
 
+  // User Signout
+  app.get('/signout', isSignedIn, function(req, res) {
+    req.logout();
+    res.redirect('/signin');
+  })
+
+  // Get a user's profile -- not the current user
+  app.get('/user/:id', isSignedIn, usersController.retrieve);
+
   //Update user attributes found with param :id
-  app.put('/user/:id', usersController.update);
+  app.put('/user/:id', isSignedIn, usersController.update);
 
   // Delete user subbed deactivate
-  app.delete('/user/:id', usersController.deactivate);
+  app.delete('/user/:id', isSignedIn, usersController.deactivate);
+
+  // ## SCORES ROUTES ##
+
+  app.get('/scores', isSignedIn, scoresController.list);
 
 };

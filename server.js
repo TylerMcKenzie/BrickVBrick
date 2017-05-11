@@ -3,7 +3,7 @@ var express = require('express');
 
 // Sessions
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');
 
 // Handles auth signin and signout
 var passport = require('passport');
@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 // ENV
-var env = 'dev';
+var env = process.env.NODE_ENV || 'dev';
 
 // For Route Logging
 var morgan = require('morgan');
@@ -41,9 +41,6 @@ require('./server/config/passport')(passport);
 
 // ## DEV ##
 
-console.log(' ___--- ENV ---___ ');
-console.log(process.env.NODE_ENV);
-console.log(' ___------___ ');
 if(env === 'dev') {
   // Asset compiler and middleware for Express compatability
   var webpack = require('webpack');
@@ -57,7 +54,7 @@ if(env === 'dev') {
 
   app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
-    stats: { color: true }
+    stats: { colors: true }
   }));
 
   // Log routing to console
@@ -86,7 +83,7 @@ app.set('views', path.join(__dirname, 'server/views'));
 // ## Session management ##
 
 // Use cookie parser to parse cookise for express-session
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Set express-session secret with SESSION OPTIONS
 app.use(session(sessionOptions));
