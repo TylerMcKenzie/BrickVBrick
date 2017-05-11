@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/page/head') %>
+  </head>
+  <body>
+    <%- include('../partials/page/nav') %>
+
+    <div class="scores-container">
+      <div class="title">
+        <h4>HighScores</h4>
+      </div>
+
+      <div class="scores">
+        <ul>
+          <% for(var i=0; i<scores.length; i++) { %>
+            <li>
+              <div class="user">
+
+              </div>
+
+              <div class="score">
+
+              </div>
+
+              <div class="date">
+
+              </div>
+            </li>
+          <% }; %>
+        </ul>
+      </div>
+    </div>
+
+    <%- include('../partials/page/scripts') %>
+  </body>
+</html>

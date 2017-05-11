@@ -35,3 +35,8 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# This is where I would skip https cert and key, if I had one!
+
+# Skip public folder compiled by webpack so no stupid merge conflicts
+public

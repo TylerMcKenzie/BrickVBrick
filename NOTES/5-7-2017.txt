@@ -1,0 +1,66 @@
+Initial thoughts 5/4/17
+
+Software to use
+- PhaserJs for GameEngine (can use es6)
+- NodeJs WebSockets (IO or existing? Probably should just make a wrapper)
+- Webpack for Compilation, use dev Server for Hot Loading
+- Use Sequelize for database interface ORM(been super into this one as of late)
+- I liked passport for auth and sessions
+
+Game Ideas 5/5/2017
+
+- Multiplayer DoodleJump (traps and powerups?)
+- Competitive brick smasher? Bricks drop from top in random assortments
+-
+
+
+Sprints 5-7-17 -> 5-13-17
+
+Going with competitive brick smasher
+
+## I am setting up sprints everyday, to avoid discouragement.
+
+Sunday 5/7/17 -
+  - Spin up Node app with server and routes.
+      - Auth
+        - Passport Js
+        - Express Session?(Don't waste time on this) -- YES
+
+      - Routes
+          - User
+              - signup
+                  - redirects to activate and sends activation email
+              - signing
+              - activate
+                  - has field for access code
+                  - once code is entered redirects to user profile
+              - deactivate
+              - profile
+                  - Username
+                  - High Score
+                  - User Session Scores? Or top 5? Or Both?
+
+          - Game
+              - Root
+                  - game
+                      - if user is not signed in redirect to Signin/Signup
+              - Routes
+                  - highscores
+                      - Show all highscores
+                          - Search Highscores by User name
+                          - filter by date and score
+                  - play
+                      - multiplayer
+                          - redirects to play/multiplayer and searches for another player
+                      - ai
+                          - play against an ai opponent
+                      - friend
+                          - redirects to play/newgame generates channel code to share with a friend
+                          - once player joins game inits
+
+  - Setup Database in conjunction with routes
+    - Psql
+    - Sequelize
+
+- Add Passport Auth
+- Webpack comp
