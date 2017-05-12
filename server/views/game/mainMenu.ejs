@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/page/head') %>
+  </head>
+  <body>
+
+    <div class="game-menu-container">
+      <div class="game-menu">
+        <div class="find-player">
+          <a href="/game/findplayer">Find an Opponent</a>
+        </div>
+
+        <div class="solo-game">
+          <a href="/game/solo/practice">Practice</a>
+        </div>
+
+        <div class="find-a-friend">
+          <%- include('../partials/forms/inviteFriend') %>
+        </div>
+
+        <div class="devplay">
+          <a href="/game/play">DEV PLAY</a>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/page/scripts') %>
+  </body>
+</html>

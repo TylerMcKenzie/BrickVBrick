@@ -1,6 +1,7 @@
 // Require our model's controllers
 var usersController = require('../controllers/users');
 var scoresController = require('../controllers/scores');
+var gamesController = require('../controllers/game');
 
 // Signin helper
 var isSignedIn = function(req, res, next) {
@@ -72,8 +73,21 @@ module.exports = function(app, passport) {
   // Delete user subbed deactivate
   app.delete('/user/:id', isSignedIn, usersController.deactivate);
 
+  // Add Score to User
+  // app.post('/user/:id/score/new', usersController.addScore);
+
   // ## SCORES ROUTES ##
 
+  // Get all scores
   app.get('/scores', isSignedIn, scoresController.list);
+
+
+  // ## GAME ROUTES ##
+
+  // Get Game menu
+  app.get('/game', isSignedIn, gamesController.mainMenu);
+
+  // Start a Game
+  app.get('/game/play', isSignedIn, gamesController.start);
 
 };
