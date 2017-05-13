@@ -88,6 +88,6 @@ module.exports = function(app, passport) {
   app.get('/game', isSignedIn, gamesController.mainMenu);
 
   // Start a Game
-  app.get('/game/play', isSignedIn, gamesController.start);
+  app.get('/game/play', gamesController.start);
 
 };
