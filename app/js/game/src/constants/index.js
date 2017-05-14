@@ -8,5 +8,6 @@ export const COLORS = {
 
 export const SIZES = {
   SCREENWIDTH: window.innerWidth * window.devicePixelRatio,
-  SCREENHEIGHT: window.innerHeight * window.devicePixelRatio
+  SCREENHEIGHT: window.innerHeight * window.devicePixelRatio,
+  BRICKSIZE: 60
 }
