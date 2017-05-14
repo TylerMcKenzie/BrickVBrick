@@ -1,12 +1,35 @@
 // Logic for signup and sign in are in PASSPORT CONFIG
 var User = require('../models').User;
+var Score = require('../models').Score;
 
 module.exports = {
   addScore: function(req, res) {
     console.log('__________USER____________');
-    console.log(req.user)
-    console.log(req.body.score)
-    res.send({message: 'cool bro'})
+    return User.findById(req.user.id)
+               .then(function(user) {
+                 if(!user) {
+                   return res.status(404).send({ message: 'User Not Found.' })
+                 }
+
+                 var score = Score.build();
+
+                 score.score = req.body.score
+                 score.date = new Date()
+
+                 score.save()
+                      .then(function(score) {
+                        user.addScore(score)
+                            .then(function(user) {
+                              return res.status(200).send({ message: "Score saved."})
+                            })
+                            .catch(function(err) {
+                              return res.status(400).send(err)
+                            })
+                      })
+                      .catch(function(err) {
+                        return res.status(400).send(err)
+                      })
+               })
   },
   addGameWon: function(req, res) {
     return User.findById(req.params.id)

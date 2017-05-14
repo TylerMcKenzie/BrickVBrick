@@ -16,15 +16,15 @@
           <% for(var i=0; i<scores.length; i++) { %>
             <li>
               <div class="user">
-
-              </div>
+                <%= scores[i].User.username %>
+              <div>
 
               <div class="score">
-
+                <%= scores[i].score %>
               </div>
 
               <div class="date">
-
+                <%= scores[i].date.toLocaleString() %>
               </div>
             </li>
           <% }; %>

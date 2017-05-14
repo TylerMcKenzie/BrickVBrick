@@ -6,13 +6,22 @@ const { BRICKSIZE } = SIZES
 
 export default class Board {
   constructor(game, brickScale, x, y) {
-    this.posX = x || 200
-    this.posY = y || 200
     this.game = game
     this.boardRows = []
     this.brickSize = BRICKSIZE
     this.brickScale = brickScale || 0.75
+
     this.brickOffset = this.brickSize * this.brickScale
+
+    this.boardWidth = 8*this.brickOffset
+    this.boardHeight = 12*this.brickOffset
+
+    this.boardOffsetW = (this.boardWidth)/2
+    this.boardOffsetH = (this.boardHeight)/2
+
+
+    this.posX = x - this.boardOffsetW || 200
+    this.posY = y - this.boardOffsetH || 200
 
     this.clicks = 0
 
@@ -20,7 +29,7 @@ export default class Board {
 
     this.playerScore = 0;
 
-    this.scoreBoard = this.game.add.text(600, 300, `Score: ${this.playerScore}`, { fill: '#fff' })
+    this.scoreBoard = this.game.add.text(this.posX+this.boardWidth+50, this.boardOffsetH-this.posY, `Score: ${this.playerScore}`, { fill: '#fff' })
 
     this.createBoard()
   }
@@ -236,6 +245,13 @@ export default class Board {
     // Use game board because Im lazy yo
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
 
-    axios.post('/user/score/new', { score: this.playerScore }).then(res => { console.log(res) }).catch(err => { console.log(err) })
+    // Save User score
+    axios.post('/user/score/new', { score: this.playerScore })
+         .then(res => {
+           alert("Thanks for playing!")
+           window.location.replace('/profile')
+         })
+         .catch(err => { console.log(err) })
+
   }
 }
