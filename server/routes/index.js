@@ -74,7 +74,7 @@ module.exports = function(app, passport) {
   app.delete('/user/:id', isSignedIn, usersController.deactivate);
 
   // Add Score to User
-  // app.post('/user/:id/score/new', usersController.addScore);
+  app.post('/user/score/new', isSignedIn, usersController.addScore);
 
   // ## SCORES ROUTES ##
 
@@ -88,6 +88,6 @@ module.exports = function(app, passport) {
   app.get('/game', isSignedIn, gamesController.mainMenu);
 
   // Start a Game
-  app.get('/game/play', gamesController.start);
+  app.get('/game/play', isSignedIn, gamesController.start);
 
 };

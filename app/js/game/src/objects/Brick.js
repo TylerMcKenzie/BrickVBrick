@@ -14,6 +14,10 @@ export default class Brick {
     this.sprite.events.onInputDown.add(handler, object)
   }
 
+  disableClickEvents() {
+    this.sprite.inputEnabled = false
+  }
+
   changePosition(pos) {
     let { x, y } = pos
 

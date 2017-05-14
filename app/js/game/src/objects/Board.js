@@ -1,5 +1,6 @@
 import Brick from './Brick'
 import { SIZES } from '../constants'
+import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
 
@@ -13,6 +14,10 @@ export default class Board {
     this.brickScale = brickScale || 0.75
     this.brickOffset = this.brickSize * this.brickScale
 
+    this.clicks = 0
+
+    this.numOfColors = 5
+
     this.playerScore = 0;
 
     this.scoreBoard = this.game.add.text(600, 300, `Score: ${this.playerScore}`, { fill: '#fff' })
@@ -25,10 +30,13 @@ export default class Board {
       let row = ((brick.position.x - this.posX)/this.brickOffset) - 1
       let col = ((brick.position.y - this.posY)/this.brickOffset) - 1
 
+      // Find all nearby colors
       let colorGroup = this.findColorGroup(col, row, brick.frame)
 
+      // Add to score
       this.addScore(colorGroup.length)
 
+      // Delete group bricks
       for(let i=0; i<colorGroup.length; i++) {
         let colorGroupBrickPosX = ((colorGroup[i].x - this.posX)/this.brickOffset) - 1
         let colorGroupBrickPosY = ((colorGroup[i].y - this.posY)/this.brickOffset) - 1
@@ -36,12 +44,38 @@ export default class Board {
         this.deleteBrick(colorGroupBrickPosY, colorGroupBrickPosX)
       }
 
+      // Add another color row and check for endgame
+      for(let i=0; i<this.boardRows[0].length; i++) {
+        if(!this.boardRows[0][i].isEmpty()) {
+          console.log('game over')
+          // Disable Clicking
+          this.boardRows.map(col => {
+            col.map(brick => {
+              brick.disableClickEvents()
+            })
+          })
+
+          // Run endgame
+          this.gameOver()
+          break;
+        }
+      }
+
+      // Increment clicks
+      this.clicks++
+
+      if(this.clicks === 2) {
+        this.boardRows[0] = this.createColorRow(0,0)
+        this.clicks = 0
+      }
+
+      // Move colors down
       this.dropColumns()
     }
   }
 
   addScore(score) {
-    this.playerScore += Math.floor((score)+(score/2))
+    this.playerScore += Math.floor((score)+(score/1.5))
 
     this.updateScoreBoard()
   }
@@ -114,7 +148,7 @@ export default class Board {
     for(let i=0; i<10; i++) {
       let step = this.brickOffset*i
 
-      if(i<1) {
+      if(i<4) {
         this.boardRows.push(this.createColorRow(startX, startY+step, 7))
       } else {
         this.boardRows.push(this.createColorRow(startX, startY+step))
@@ -152,7 +186,7 @@ export default class Board {
     let rowArr = []
     let brickColor
     for(let i=0; i<6; i++) {
-      brickColor = color || Math.floor(Math.random() * 6)
+      brickColor = color || Math.floor(Math.random() * this.numOfColors)
       let brick = new Brick(this.game, this.brickScale, posX+(this.brickOffset*i), posY, brickColor)
 
       brick.addClickEvent(this.brickClickHandler, this)
@@ -198,4 +232,10 @@ export default class Board {
     this.boardRows[col].splice(row, 1, emptyBrick)
   }
 
+  gameOver() {
+    // Use game board because Im lazy yo
+    this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
+
+    axios.post('/user/score/new', { score: this.playerScore }).then(res => { console.log(res) }).catch(err => { console.log(err) })
+  }
 }

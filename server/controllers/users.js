@@ -2,6 +2,12 @@
 var User = require('../models').User;
 
 module.exports = {
+  addScore: function(req, res) {
+    console.log('__________USER____________');
+    console.log(req.user)
+    console.log(req.body.score)
+    res.send({message: 'cool bro'})
+  },
   addGameWon: function(req, res) {
     return User.findById(req.params.id)
         .then(function(user) {
