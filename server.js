@@ -102,6 +102,34 @@ app.use(flash())
 // Here I run the exported function from the routing section of the server folder and pass it the EXPRESS ROUTER and the configured PASSPORT variable for authentication
 require('./server/routes')(app, passport);
 
+// ## SOCKETS ##
+
+// SocketIo for WebSockets
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+// Set up initial number of rooms
+var roomNum = 1;
+
+io.on('connection', function(client) {
+  console.log('Client -- %s -- connected to the server', client.id);
+  if(io.nsps['/'].adapter.rooms['room-'+roomNum] && io.nsps['/'].adapter.rooms['room-'+roomNum].length === 2) {
+    // Add room so this means 2 per room
+    roomNum++;
+  }
+
+  var nsp = io.of('/room-'+roomNum);
+  console.log('joining room no. '+roomNum)
+  client.join('room-'+roomNum);
+
+  io.sockets.in('room-'+roomNum).emit('connectToRoom', roomNum);
+
+
+
+  client.on('disconnect', function() {
+    io.sockets.in('room-'+roomNum).emit('playerDisconnect');
+  })
+})
+
 
 // Start server listening on the PORT variable
-app.listen(PORT);
+server.listen(PORT);
