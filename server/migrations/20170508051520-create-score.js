@@ -1,4 +1,5 @@
 'use strict';
+//  This is a database migration for creating SCORES
 module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('Scores', {

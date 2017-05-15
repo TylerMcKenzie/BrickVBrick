@@ -12,26 +12,15 @@
       </div>
 
       <div class="stats-container">
-        <!-- <div class="title">
-          <h4>Games Won</h4>
-        </div>
-
-        <div class="games-won">
-          <p>
-            <%= user.gamesWon %>
-          </p>
-        </div>
-
         <div class="title">
-          <h4>Games Lost</h4>
+          <h4>Current HighScore</h4>
         </div>
 
-        <div class="games-lost">
+        <div class="highscore">
           <p>
-            <%= user.gamesLost %>
+            <%= user.highScore %>
           </p>
         </div>
-        -->
 
         <div class="title">
           <h4>Total Games Played</h4>
@@ -43,13 +32,6 @@
           </p>
         </div>
 
-        <!-- <% if(user.winLoseRatio()) { %>
-          <div class="ratio">
-            <p>
-              <%= user.winLoseRatio() %>
-            </p>
-          </div>
-        <% }; %> -->
       </div>
     </div>
 
@@ -63,7 +45,7 @@
             </p>
             <p>
               Date Played:
-              <%= userScores[i].date.toLocaleDateString() %>
+              <%= userScores[i].date.toLocaleString() %>
             </p>
           </li>
           <% } %>

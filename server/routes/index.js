@@ -56,12 +56,8 @@ module.exports = function(app, passport) {
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
     // Get scores
-    var userScores
     res.locals.current_user.getScores().then(function(scores) {
-      console.log("___________SCORES")
-      // console.log(scores)
-      userScores = scores
-      res.render('user/profile', { user: res.locals.current_user, userScores: userScores });
+      res.render('user/profile', { user: res.locals.current_user, userScores: scores });
     })
 
   });
@@ -89,6 +85,8 @@ module.exports = function(app, passport) {
   // Get all scores
   app.get('/scores', isSignedIn, scoresController.list);
 
+  // Get HighScores
+  app.get('/highscores', isSignedIn, usersController.showHighScores);
 
   // ## GAME ROUTES ##
 

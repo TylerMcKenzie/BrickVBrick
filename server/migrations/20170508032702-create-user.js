@@ -18,14 +18,8 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      gamesPlayed: {
-        type: Sequelize.INTEGER,
-      },
-      gamesWon: {
-        type: Sequelize.INTEGER,
-      },
-      gamesLost: {
-        type: Sequelize.INTEGER,
+      highScore: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
