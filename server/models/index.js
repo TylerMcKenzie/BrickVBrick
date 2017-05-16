@@ -1,5 +1,5 @@
 'use strict';
-
+// Generated file for exporting all models in directory
 var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');

@@ -1,6 +1,7 @@
 // Require our model's controllers
 var usersController = require('../controllers/users');
 var scoresController = require('../controllers/scores');
+var gamesController = require('../controllers/game');
 
 // Signin helper
 var isSignedIn = function(req, res, next) {
@@ -54,7 +55,11 @@ module.exports = function(app, passport) {
 
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
-    res.render('user/profile', { user: res.locals.current_user });
+    // Get scores
+    res.locals.current_user.getScores().then(function(scores) {
+      res.render('user/profile', { user: res.locals.current_user, userScores: scores });
+    })
+
   });
 
   // User Signout
@@ -72,8 +77,23 @@ module.exports = function(app, passport) {
   // Delete user subbed deactivate
   app.delete('/user/:id', isSignedIn, usersController.deactivate);
 
+  // Add Score to User
+  app.post('/user/score/new', isSignedIn, usersController.addScore);
+
   // ## SCORES ROUTES ##
 
+  // Get all scores
   app.get('/scores', isSignedIn, scoresController.list);
+
+  // Get HighScores
+  app.get('/highscores', isSignedIn, usersController.showHighScores);
+
+  // ## GAME ROUTES ##
+
+  // Get Game menu
+  app.get('/game', isSignedIn, gamesController.mainMenu);
+
+  // Start a Game
+  app.get('/game/play', isSignedIn, gamesController.start);
 
 };

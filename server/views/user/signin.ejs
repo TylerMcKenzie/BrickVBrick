@@ -6,14 +6,56 @@
   <body>
     <div class="user-forms-container">
       <div class="signin-container">
-        <%- include('../partials/forms/signin') %>
+        <%- include('../partials/forms/signin', {message: signInMessage}) %>
+
+        <div class="swap-forms">
+          Or... <a href="#" >Sign up</a>
+        </div>
       </div>
 
+
       <div class="signup-container">
-        <%- include('../partials/forms/signup') %>
+        <%- include('../partials/forms/signup' , {message: signUpMessage}) %>
+
+        <div class="swap-forms">
+          Or... <a href="#" >Sign in</a>
+        </div>
       </div>
     </div>
 
+    <script type="text/javascript">
+      var swapFormBtns = document.getElementsByClassName('swap-forms');
+      var signIn = document.getElementsByClassName('signin-container')[0];
+      var signUp = document.getElementsByClassName('signup-container')[0];
+
+      for(var i=0; i<swapFormBtns.length; i++) {
+        swapFormBtns[i].addEventListener('click', function(evt) {
+          evt.preventDefault();
+          elm = evt.target;
+          if(elm.tagName === 'A') {
+            var container = elm.parentNode.parentNode;
+            console.log(container.style.display)
+            if(container.classList.contains('signin-container')) {
+              if(container.style.display === 'none') {
+                signUp.style.display = "none"
+                container.style.display = "flex"
+              } else {
+                container.style.display = "none"
+                signUp.style.display = "flex"
+              }
+            } else if(container.classList.contains('signup-container')) {
+              if(container.style.display === 'none') {
+                container.style.display = "flex"
+                signIn.style.display = "none"
+              } else {
+                signIn.style.display = "flex"
+                container.style.display = "none"
+              }
+            }
+          }
+        })
+      }
+    </script>
     <%- include('../partials/page/scripts') %>
   </body>
 </html>

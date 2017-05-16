@@ -1,0 +1,70 @@
+.user-forms-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh; // vh are view height units. don't use ever except here cuz reasons
+
+  .swap-forms {
+    margin-top: 3rem;
+  }
+
+  .signin-container, .signup-container {
+    background-color: $teal;
+    width: 33%;
+    min-width: 500px;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1rem;
+  }
+
+  .signup-container {
+    display: none;
+  }
+}
+
+.signup-container, .signin-container {
+  h3 {
+    color: white;
+    letter-spacing: 1px;
+  }
+
+  form {
+    display: flex;
+    justify-content: space-around;;
+    align-items: center;
+    flex-direction: column;
+
+    .form-group {
+      width: 100%;
+
+      label {
+        font-size: 1.3rem;
+        color: white;
+      }
+
+      input {
+        padding: 1rem;
+      }
+    }
+
+    .form-btn-container {
+      margin-top: 1rem;
+
+      input {
+        background-color: $green;
+        border: 0;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+
+        &:hover {
+          background-color: $yellowgreen;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

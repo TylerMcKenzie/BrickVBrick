@@ -13,22 +13,12 @@
 
       <div class="stats-container">
         <div class="title">
-          <h4>Games Won</h4>
+          <h4>Current HighScore</h4>
         </div>
 
-        <div class="games-won">
+        <div class="highscore">
           <p>
-            <%= user.gamesWon %>
-          </p>
-        </div>
-
-        <div class="title">
-          <h4>Games Lost</h4>
-        </div>
-
-        <div class="games-lost">
-          <p>
-            <%= user.gamesLost %>
+            <%= user.highScore %>
           </p>
         </div>
 
@@ -38,35 +28,29 @@
 
         <div class="games-played">
           <p>
-            <%= user.gamesPlayed %>
+            <%= userScores.length %>
           </p>
         </div>
 
-        <% if(user.winLoseRatio()) { %>
-          <div class="ratio">
-            <p>
-              <%= user.winLoseRatio() %>
-            </p>
-          </div>
-        <% }; %>
       </div>
     </div>
 
-    <!-- <div class="profile-scores">
+    <div class="profile-scores">
       <ul>
-        <% user.getScores().then(function(scores) { %>
-          <% if(scores) { %>
-            <% for(var i=0; i<scores.length;i++) { %>
-              <li>
-                <%= scores[i] %>
-              </li>
-            <% } %>
-          <% } else { %>
-            <li>No scores Yet</li>
+        <% for(var i=0; i<userScores.length; i++) { %>
+          <li>
+            <p>
+              Score:
+              <%= userScores[i].score %>
+            </p>
+            <p>
+              Date Played:
+              <%= userScores[i].date.toLocaleString() %>
+            </p>
+          </li>
           <% } %>
-        <% }); %>
       </ul>
-    </div> -->
+    </div>
 
     <%- include('../partials/page/scripts') %>
   </body>
