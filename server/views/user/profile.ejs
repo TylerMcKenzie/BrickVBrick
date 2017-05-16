@@ -33,24 +33,25 @@
         </div>
 
       </div>
+
+      <div class="profile-scores">
+        <ul>
+          <% for(var i=0; i<userScores.length; i++) { %>
+            <li>
+              <p>
+                Score:
+                <%= userScores[i].score %>
+              </p>
+              <p>
+                Date Played:
+                <%= userScores[i].date.toLocaleString() %>
+              </p>
+            </li>
+            <% } %>
+          </ul>
+        </div>
     </div>
 
-    <div class="profile-scores">
-      <ul>
-        <% for(var i=0; i<userScores.length; i++) { %>
-          <li>
-            <p>
-              Score:
-              <%= userScores[i].score %>
-            </p>
-            <p>
-              Date Played:
-              <%= userScores[i].date.toLocaleString() %>
-            </p>
-          </li>
-          <% } %>
-      </ul>
-    </div>
 
     <%- include('../partials/page/scripts') %>
   </body>
