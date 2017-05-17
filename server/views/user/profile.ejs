@@ -8,7 +8,7 @@
 
     <div class="profile-container">
       <div class="profile-name">
-        <h3>Username: <%= user.username %></h3>
+        <h3>Username: <br/><br/><%= user.username %></h3>
       </div>
 
       <div class="stats-container">
@@ -35,21 +35,31 @@
       </div>
 
       <div class="profile-scores">
-        <ul>
-          <% for(var i=0; i<userScores.length; i++) { %>
-            <li>
-              <p>
-                Score:
-                <%= userScores[i].score %>
-              </p>
-              <p>
-                Date Played:
-                <%= userScores[i].date.toLocaleString() %>
-              </p>
-            </li>
-            <% } %>
-          </ul>
-        </div>
+        <h4>All Scores</h4>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Score</th>
+              <th>Date Played</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% for(var i=0; i<userScores.length; i++) { %>
+              <tr>
+                <td>
+                  <%= userScores[i].score %>
+                </td>
+                <td>
+                  <%= userScores[i].date.toLocaleString() %>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
+        
+      </div>
     </div>
 
 

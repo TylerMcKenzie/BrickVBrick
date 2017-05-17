@@ -1,6 +1,13 @@
+// Settings
 @import "settings/variable.scss";
 
+// Globals
 @import "global/globals.scss";
+
+// Page Partials
 @import "pages/partials/nav.scss";
+
+// Pages
 @import "pages/signin.scss";
 @import "pages/profile.scss";
+@import "pages/highscores.scss";
