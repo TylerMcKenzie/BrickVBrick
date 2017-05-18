@@ -1,0 +1,45 @@
+.game-menu-page {
+  height: 100%;
+
+  body {
+    height: 100%;
+  }
+}
+
+.game-menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+
+  .game-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 90%;
+
+    a {
+      padding: 2rem 5rem;
+      background-color: $teal;
+      border: 0.3rem solid #254650;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      transition: background-color .5s ease-out;
+
+      &:hover {
+        background-color: #254650;
+        border: 0.3rem solid $teal;
+      }
+    }
+  }
+}
+
+.how-to {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 0;
+}
