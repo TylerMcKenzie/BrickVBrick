@@ -11,10 +11,26 @@
     padding: 0;
 
     li {
-      display: inline-block;
-      
+      display: inline-flex;;
+      justify-content: center;
+      height: 100%;
+      flex: 1;
+
       a {
-        background-color: $yellowgreen;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        transition: background-color .5s linear;
+        text-decoration: none;
+        color: white;
+        letter-spacing: 1px;
+
+        &:hover {
+          background-color: $yellowgreen;
+          color: $darkblue;
+        }
+
       }
     }
   }

@@ -12,19 +12,29 @@
       </div>
 
       <div class="scores">
-        <ul>
-          <% for(var i=0; i<users.length; i++) { %>
-            <li>
-              <div class="user">
-                <a href="/user/<%= users[i].id %>"><%= users[i].username %></a>
-              <div>
 
-              <div class="score">
-                <%= users[i].highScore %>
-              </div>
-            </li>
-          <% }; %>
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% for(var i=0; i<users.length; i++) { %>
+              <tr>
+                <td class="user">
+                  <a href="/user/<%= users[i].id %>"><%= users[i].username %></a>
+                </td>
+
+                <td class="score">
+                  <%= users[i].highScore %>
+                </td>
+              </tr>
+            <% }; %>
+          </tbody>
+        </table
       </div>
     </div>
 

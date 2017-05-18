@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html  class="game-menu-page">
   <head>
     <%- include('../partials/page/head') %>
   </head>
   <body>
     <%- include('../partials/page/nav') %>
-    
+
     <div class="game-menu-container">
       <div class="game-menu">
         <div class="find-player">
-          <a href="/game/findplayer">Find an Opponent</a>
+          <!-- <a href="/game/findplayer">Find an Opponent</a> -->
+          <a href="#">Multiplayer on its way!</a>
         </div>
 
         <div class="solo-game">
           <a href="/game/play">Play Solo</a>
         </div>
 
-        <!-- <div class="find-a-friend">
-          <%- include('../partials/forms/inviteFriend') %>
-        </div> -->
+        <div class="how-to">
+          <h3>How to Play</h3>
+          <p>The premise of the game is simple.</p>
+          <p>Break as many bricks as you can</p>
+          <p>Every 2 clicks, another row will be added</p>
+          <p>Keep the bricks from reaching the top</p>
+          <p>If the bricks reach the top on your second click, the game will end</p>
+          <p>** POWERUPS ARE IN DEVELOPMENT **</p>
+        </div>
       </div>
     </div>
 

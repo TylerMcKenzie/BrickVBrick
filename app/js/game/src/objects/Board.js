@@ -54,28 +54,17 @@ export default class Board {
       }
 
       // Add another color row and check for endgame
-      for(let i=0; i<this.boardRows[0].length; i++) {
-        if(!this.boardRows[0][i].isEmpty()) {
-          console.log('game over')
-          // Disable Clicking
-          this.boardRows.map(col => {
-            col.map(brick => {
-              brick.disableClickEvents()
-            })
-          })
-
-          // Run endgame
-          this.gameOver()
-          break;
-        }
-      }
 
       // Increment clicks
       this.clicks++
 
       if(this.clicks === 2) {
-        this.boardRows[0] = this.createColorRow(0,0)
-        this.clicks = 0
+        if(this.isGameOver()) {
+          this.gameOver();
+        } else {
+          this.boardRows[0] = this.createColorRow(0,0)
+          this.clicks = 0
+        }
       }
 
       // Move colors down
@@ -241,7 +230,30 @@ export default class Board {
     this.boardRows[col].splice(row, 1, emptyBrick)
   }
 
+  isGameOver() {
+    for(let i=0; i<this.boardRows[0].length; i++) {
+      if(!this.boardRows[0][i].isEmpty()) {
+        console.log('game over')
+        // Disable Clicking
+        return true
+        break;
+      }
+
+      return false;
+    }
+  }
+
+  disableBoard() {
+    this.boardRows.map(col => {
+      col.map(brick => {
+        brick.disableClickEvents()
+      })
+    })
+  }
+
   gameOver() {
+    this.disableBoard()
+
     // Use game board because Im lazy yo
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
 
