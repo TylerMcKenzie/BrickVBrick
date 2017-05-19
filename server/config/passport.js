@@ -38,11 +38,19 @@ module.exports = (passport) => {
       if(user) { // if user is found return flash message
         done(null, false, req.flash('signupMessage', 'That email already exists.'))
       } else {
+        if(!req.body.username) {
+          return done(null, false, req.flash('signupMessage', 'Username cannot be blank.'));
+        } else if(!email) {
+          return done(null, false, req.flash('signupMessage', 'Email cannot be blank.'));
+        } else if(!password) {
+          return done(null, false, req.flash('signupMessage', 'Password cannot be blank.'));
+        }
+
         let newUser = User.build(); // Build empty user
 
         //  Start Constructing a user model
         newUser.email = email;
-        newUser.username = req.body.username || "CommonUsername"; // if no username set to CommonUsername
+        newUser.username = req.body.username; // if no username set to CommonUsername
         newUser.password = newUser.generateHash(password); // use instanceMethod to hash password
 
         // Save user
@@ -68,7 +76,7 @@ module.exports = (passport) => {
     })
     .then(user => {
       if(!user) { // if no user return flash message
-        return done(null, false, req.flash('signinMessage', 'No user found.'))
+        return done(null, false, req.flash('signinMessage', 'User does not exist.'))
       }
 
       if(!user.validPassword(password)) {  // use instanceMethod validPassword to check if incoming password matches user password.

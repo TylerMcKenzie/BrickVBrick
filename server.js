@@ -111,14 +111,14 @@ var io = require('socket.io').listen(server);
 var roomNum = 1;
 
 io.on('connection', function(client) {
-  console.log('Client -- %s -- connected to the server', client.id);
+  // console.log('Client -- %s -- connected to the server', client.id);
   if(io.nsps['/'].adapter.rooms['room-'+roomNum] && io.nsps['/'].adapter.rooms['room-'+roomNum].length === 2) {
     // Add room so this means 2 per room
     roomNum++;
   }
 
   var nsp = io.of('/room-'+roomNum);
-  console.log('joining room no. '+roomNum)
+  // console.log('joining room no. '+roomNum)
   client.join('room-'+roomNum);
 
   io.sockets.in('room-'+roomNum).emit('connectToRoom', roomNum);
