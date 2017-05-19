@@ -18,7 +18,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 // ENV
-var env = process.env.NODE_ENV || 'dev';
+var env = process.env.NODE_ENV;
 
 
 // Set PORT based on environment Production or local
@@ -39,7 +39,7 @@ require('./server/config/passport')(passport);
 
 // ## DEV ##
 
-if(env === 'dev') {
+if(env === 'development') {
   // Asset compiler and middleware for Express compatability
   // For Route Logging
   var morgan = require('morgan');
