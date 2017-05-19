@@ -39,4 +39,3 @@ jspm_packages
 # This is where I would skip https cert, if I had one!
 
 # Skip public folder compiled by webpack so no stupid merge conflicts
-public

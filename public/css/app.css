@@ -1,0 +1,199 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #001440;
+  color: white; }
+
+.alert {
+  color: red; }
+
+.nav {
+  background-color: #427a8b; }
+  .nav ul {
+    display: flex;
+    height: 3rem;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .nav ul li {
+      display: inline-flex;
+      justify-content: center;
+      height: 100%;
+      flex: 1; }
+      .nav ul li a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        transition: background-color .5s linear;
+        text-decoration: none;
+        color: white;
+        letter-spacing: 1px; }
+        .nav ul li a:hover {
+          background-color: #e2fda7;
+          color: #001440; }
+
+.user-forms-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh; }
+  .user-forms-container .swap-forms {
+    margin-top: 3rem; }
+  .user-forms-container .signin-container, .user-forms-container .signup-container {
+    background-color: #427a8b;
+    width: 33%;
+    min-width: 500px;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1rem; }
+  .user-forms-container .signup-container {
+    display: none; }
+
+.signup-container h3, .signin-container h3 {
+  color: white;
+  letter-spacing: 1px; }
+
+.signup-container form, .signin-container form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column; }
+  .signup-container form .form-group, .signin-container form .form-group {
+    width: 100%; }
+    .signup-container form .form-group label, .signin-container form .form-group label {
+      font-size: 1.3rem;
+      color: white; }
+    .signup-container form .form-group input, .signin-container form .form-group input {
+      padding: 1rem; }
+  .signup-container form .form-btn-container, .signin-container form .form-btn-container {
+    margin-top: 1rem; }
+    .signup-container form .form-btn-container input, .signin-container form .form-btn-container input {
+      background-color: #39bb8f;
+      border: 0;
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem; }
+      .signup-container form .form-btn-container input:hover, .signin-container form .form-btn-container input:hover {
+        background-color: #e2fda7;
+        cursor: pointer; }
+
+.profile-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .profile-container .profile-name {
+    margin: 2rem 0; }
+  .profile-container p {
+    text-align: center; }
+  .profile-container .profile-scores {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column; }
+    .profile-container .profile-scores h4 {
+      text-align: center; }
+    .profile-container .profile-scores table {
+      padding: 0;
+      margin-top: 1rem;
+      width: 40%;
+      border-spacing: 0; }
+      .profile-container .profile-scores table th {
+        width: 50%;
+        padding: 2rem; }
+      .profile-container .profile-scores table td {
+        text-align: center;
+        padding: 2rem 0;
+        margin: 0;
+        border-radius: 0 1rem 1rem 0; }
+        .profile-container .profile-scores table td:first-child {
+          font-size: 1.5rem;
+          border-radius: 1rem 0 0 1rem; }
+      .profile-container .profile-scores table tbody tr {
+        transition: all .2s ease-in; }
+        .profile-container .profile-scores table tbody tr:hover {
+          background-color: #427a8b; }
+
+.scores-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .scores-container .scores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%; }
+    .scores-container .scores table {
+      padding: 0;
+      margin-top: 1rem;
+      width: 40%;
+      border-spacing: 0; }
+      .scores-container .scores table thead th {
+        text-align: center;
+        width: 50%;
+        padding: 2rem 0; }
+      .scores-container .scores table tbody tr {
+        transition: background-color 0.2s ease-in; }
+        .scores-container .scores table tbody tr:hover {
+          background-color: #427a8b; }
+        .scores-container .scores table tbody tr td {
+          text-align: center;
+          padding: 2rem 0;
+          border-radius: 0 1rem 1rem 0; }
+          .scores-container .scores table tbody tr td:first-child {
+            font-size: 1.5rem;
+            border-radius: 1rem 0 0 1rem; }
+          .scores-container .scores table tbody tr td a {
+            text-decoration: none;
+            color: white;
+            transition: all .2s linear; }
+            .scores-container .scores table tbody tr td a:hover {
+              text-decoration: underline;
+              color: black; }
+
+.game-menu-page {
+  height: 100%; }
+  .game-menu-page body {
+    height: 100%; }
+
+.game-menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%; }
+  .game-menu-container .game-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 90%; }
+    .game-menu-container .game-menu a {
+      padding: 2rem 5rem;
+      background-color: #427a8b;
+      border: 0.3rem solid #254650;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      transition: background-color .5s ease-out; }
+      .game-menu-container .game-menu a:hover {
+        background-color: #254650;
+        border: 0.3rem solid #427a8b; }
+
+.how-to {
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 0; }
+
+/*# sourceMappingURL=app.css.map*/
