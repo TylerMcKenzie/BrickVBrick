@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.production.config.js -p",
     "dev": "node server.js",
-    "prestart": "rimraf public && npm run build",
-    "start": "NODE_ENV=production node server.js"
+    "prestart": "npm run build",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

@@ -78,9 +78,21 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
     new ExtractTextPlugin({
       filename: 'css/[name].css'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
     })
   ]
 }
