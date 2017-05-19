@@ -20,8 +20,6 @@ var path = require('path');
 // ENV
 var env = process.env.NODE_ENV || 'dev';
 
-// For Route Logging
-var morgan = require('morgan');
 
 // Set PORT based on environment Production or local
 var PORT = process.env.PORT || 3000;
@@ -43,6 +41,8 @@ require('./server/config/passport')(passport);
 
 if(env === 'dev') {
   // Asset compiler and middleware for Express compatability
+  // For Route Logging
+  var morgan = require('morgan');
   var webpack = require('webpack');
   var webpackHotMiddleware = require('webpack-hot-middleware');
   var webpackDevMiddleware = require('webpack-dev-middleware');
