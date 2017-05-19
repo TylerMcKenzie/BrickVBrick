@@ -1,9 +1,6 @@
 # BrickVBrick
 Competative Brick Smashing Game
 
-# BrickVBrick
-Competative Brick Smashing Game
-
 ## Prereqs
 
 make sure that you have Node v6^ installed and Postgresql(most recent version)
@@ -44,3 +41,6 @@ B. Development
 }
 ``` 
 3. ```npm run dev``` 
+
+## Comments
+Got any comments for me, or experience a bug send me an email at [tylrmckenz@gmail.com](mailto:tylrmckenz@gmail.com)
