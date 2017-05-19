@@ -44,5 +44,7 @@ B. Development
 3. ```node_modules/.bin/sequelize db:migrate```
 4. ```npm run dev``` 
 
+C. Check it out
+1. navigate to ```[http://localhost:3000](http://localhost:3000)``` to see the app in action
 ## Comments
 Got any comments for me, or experience a bug send me an email at [tylrmckenz@gmail.com](mailto:tylrmckenz@gmail.com)
