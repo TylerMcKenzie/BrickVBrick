@@ -132,4 +132,4 @@ io.on('connection', function(client) {
 
 
 // Start server listening on the PORT variable
-server.listen(PORT);
+server.listen(process.env.PORT || 3000);
