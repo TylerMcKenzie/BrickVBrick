@@ -24,8 +24,9 @@ once packages are installed you can run in one of two environments
     "dialect": "postgres"
 }
 ``` 
-3. ```npm run build``` 
-4. ```npm start``` 
+3. ```node_modules/.bin/sequelize db:migrate```
+4. ```npm run build``` 
+5. ```npm start``` 
 
 B. Development
 1. same as production step 1
@@ -40,7 +41,8 @@ B. Development
     "dialect": "postgres"
 }
 ``` 
-3. ```npm run dev``` 
+3. ```node_modules/.bin/sequelize db:migrate```
+4. ```npm run dev``` 
 
 ## Comments
 Got any comments for me, or experience a bug send me an email at [tylrmckenz@gmail.com](mailto:tylrmckenz@gmail.com)
