@@ -8,7 +8,7 @@ export default class Board {
   constructor(game, brickScale, x, y) {
     this.game = game
     this.boardRows = []
-    this.brickSize = BRICKSIZE
+    this.brickSize = BRICKSIZE -1
     this.brickScale = brickScale || 0.75
 
     this.brickOffset = this.brickSize * this.brickScale

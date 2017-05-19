@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
+
 var PHASER_DIR = path.join(__dirname, '/node_modules/phaser/');
 var APP_DIR = path.join(__dirname, 'app');
 
