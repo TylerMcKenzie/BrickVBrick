@@ -8,7 +8,7 @@ export default class Board {
   constructor(game, brickScale, x, y) {
     this.game = game
     this.boardRows = []
-    this.brickSize = BRICKSIZE-1
+    this.brickSize = BRICKSIZE
     this.brickScale = brickScale || 0.75
 
     this.brickOffset = this.brickSize * this.brickScale
@@ -62,7 +62,10 @@ export default class Board {
         if(this.isGameOver()) {
           this.gameOver();
         } else {
-          this.boardRows[0] = this.createColorRow(0,0)
+          let startX = this.posX+this.brickOffset
+          let startY = this.posY+this.brickOffset
+
+          this.boardRows[0] = this.createColorRow(this.posX+this.brickOffset, this.posY+this.brickOffset)
           this.clicks = 0
         }
       }
@@ -167,8 +170,11 @@ export default class Board {
       for(let j=0; j<8; j++) {
         let stepX = this.brickOffset*j
         let stepY = this.brickOffset*i
-
-        new Brick(this.game, this.brickScale, this.posX+stepX, this.posY+stepY, 6)
+        let color = 6
+        if(j > 0 && j < 7 && i > 0 && i < 11) {
+          color = 7
+        }
+        new Brick(this.game, this.brickScale, this.posX+stepX, this.posY+stepY, color)
       }
     }
   }
@@ -231,16 +237,14 @@ export default class Board {
   }
 
   isGameOver() {
+    var bool = false;
     for(let i=0; i<this.boardRows[0].length; i++) {
       if(!this.boardRows[0][i].isEmpty()) {
-        console.log('game over')
-        // Disable Clicking
-        return true
+        bool = true
         break;
       }
-
-      return false;
     }
+    return bool
   }
 
   disableBoard() {
