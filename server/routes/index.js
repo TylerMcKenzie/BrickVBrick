@@ -56,8 +56,8 @@ module.exports = function(app, passport) {
   // User profile only accessable if logged in
   app.get('/profile', isSignedIn, function(req, res) {
     // Get scores
-    res.locals.current_user.getScores().then(function(scores) {
-      res.render('user/profile', { user: res.locals.current_user, userScores: scores });
+    return res.locals.current_user.getScores().then(function(scores) {
+      return res.render('user/profile', { user: res.locals.current_user, userScores: scores });
     })
 
   });

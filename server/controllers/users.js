@@ -17,7 +17,7 @@ module.exports = {
                   return b.highScore - a.highScore
                 })
 
-                res.render('user/highscores', { users: users })
+                return res.render('user/highscores', { users: users })
                })
                .catch(function(err) {
                  return res.status(400).send(err)
