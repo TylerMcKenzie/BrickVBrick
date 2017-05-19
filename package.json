@@ -54,7 +54,9 @@
     "phaser": "^2.6.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "rimraf": "^2.6.1",
     "sequelize": "^3.30.4",
-    "socket.io": "^2.0.1"
+    "socket.io": "^2.0.1",
+    "webpack": "^2.5.1"
   }
 }
