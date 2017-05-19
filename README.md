@@ -11,6 +11,7 @@ clone this repo ```git clone https://github.com/TylerMcKenzie/BrickVBrick.git```
 
 run ```npm install```
 once packages are installed you can run in one of two environments 
+
 A. Production
 1. create the database ```createdb brickvbrick_database```
 2. change ```server/config.json``` 
