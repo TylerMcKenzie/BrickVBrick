@@ -1,5 +1,5 @@
 import { COLORS, SIZES } from '../constants'
-import src from '../assets/bricksSpaced.png'
+import src from '../assets/bricksSpaced-V2.png'
 
 export default class Preload extends Phaser.State {
   preload() {
@@ -15,7 +15,7 @@ export default class Preload extends Phaser.State {
   }
 
   loadResources() {
-    this.game.load.spritesheet('bricks', src, 60, 60, 8)
+    this.game.load.spritesheet('bricks', src, 60, 60, 11)
   }
 
   update() {

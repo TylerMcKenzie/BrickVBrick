@@ -50,6 +50,10 @@ export default class Board {
         let colorGroupBrickPosX = ((colorGroup[i].x - this.posX)/this.brickOffset) - 1
         let colorGroupBrickPosY = ((colorGroup[i].y - this.posY)/this.brickOffset) - 1
 
+        if(colorGroup[i].isPowerUp()) {
+          console.log('boom')
+        }
+
         this.deleteBrick(colorGroupBrickPosY, colorGroupBrickPosX)
       }
 
@@ -190,7 +194,13 @@ export default class Board {
     let rowArr = []
     let brickColor
     for(let i=0; i<6; i++) {
-      brickColor = color || Math.floor(Math.random() * this.numOfColors)
+
+      if(Math.floor(Math.random()*100) < 96) {
+        brickColor = color || Math.floor(Math.random() * this.numOfColors)
+      } else {
+        brickColor = color || Math.floor(Math.random() * (11 - 8)) + 8
+      }
+
       let brick = new Brick(this.game, this.brickScale, posX+(this.brickOffset*i), posY, brickColor)
 
       brick.addClickEvent(this.brickClickHandler, this)
