@@ -1,8 +1,10 @@
 import Brick from './Brick'
+import PowerUp from './PowerUp'
 import { SIZES } from '../constants'
 import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
+
 
 export default class Board {
   constructor(game, brickScale, x, y) {
@@ -36,22 +38,17 @@ export default class Board {
 
   brickClickHandler(brick) {
     if(brick.frame !== 7) {
-      let row = ((brick.position.x - this.posX)/this.brickOffset) - 1
-      let col = ((brick.position.y - this.posY)/this.brickOffset) - 1
+      let { x, y } = this.getBrickLocation(brick)
 
       // Find all nearby colors
-      let colorGroup = this.findColorGroup(col, row, brick.frame)
+      let colorGroup = this.findColorGroup(y, x, brick.frame)
+
 
       // Add to score
       this.addScore(colorGroup.length)
 
-      // Delete group bricks
-      for(let i=0; i<colorGroup.length; i++) {
-        let colorGroupBrickPosX = ((colorGroup[i].x - this.posX)/this.brickOffset) - 1
-        let colorGroupBrickPosY = ((colorGroup[i].y - this.posY)/this.brickOffset) - 1
-
-        this.deleteBrick(colorGroupBrickPosY, colorGroupBrickPosX)
-      }
+      // Delete Colors
+      this.deleteGroup(colorGroup)
 
       // Add another color row and check for endgame
 
@@ -73,6 +70,31 @@ export default class Board {
       // Move colors down
       this.dropColumns()
     }
+  }
+
+  powerUpClickHandler(brick) {
+    let { x, y } = this.getBrickLocation(brick)
+
+    let powerUp = this.boardRows[y][x]
+
+    powerUp.applyEffect(this)
+
+    // Increment clicks
+    this.clicks++
+
+    if(this.clicks === 2) {
+      if(this.isGameOver()) {
+        this.gameOver();
+      } else {
+        let startX = this.posX+this.brickOffset
+        let startY = this.posY+this.brickOffset
+
+        this.boardRows[0] = this.createColorRow(this.posX+this.brickOffset, this.posY+this.brickOffset)
+        this.clicks = 0
+      }
+    }
+
+    this.dropColumns();
   }
 
   addScore(score) {
@@ -160,7 +182,10 @@ export default class Board {
   renderBoard() {
     for(let i=0; i<this.boardRows.length; i++) {
       for(let j=0; j<this.boardRows[i].length; j++) {
-        this.boardRows[i][j].changePosition({ x: this.posX+this.brickOffset+(this.brickOffset*j), y: this.posY+this.brickOffset+(this.brickOffset*i) })
+        let newX = this.posX+this.brickOffset+(this.brickOffset*j)
+        let newY = this.posY+this.brickOffset+(this.brickOffset*i)
+
+        this.boardRows[i][j].changePosition({ x: newX, y: newY })
       }
     }
   }
@@ -180,9 +205,10 @@ export default class Board {
   }
 
   createEmptyBrick(col, row) {
-    let posX = this.boardRows[col][row].x
-    let posY = this.boardRows[col][row].y
-    let emptyBrick = new Brick(this.game, this.brickScale, posX, posY, 7)
+    let { x, y } = this.getBrickLocation(this.boardRows[col][row])
+
+    let emptyBrick = new Brick(this.game, this.brickScale, x, y, 7)
+
     return emptyBrick
   }
 
@@ -190,10 +216,20 @@ export default class Board {
     let rowArr = []
     let brickColor
     for(let i=0; i<6; i++) {
-      brickColor = color || Math.floor(Math.random() * this.numOfColors)
-      let brick = new Brick(this.game, this.brickScale, posX+(this.brickOffset*i), posY, brickColor)
+      let brick
 
-      brick.addClickEvent(this.brickClickHandler, this)
+      if(Math.floor(Math.random()*100) < 96) {
+        brickColor = color || Math.floor(Math.random() * this.numOfColors)
+        brick = new Brick(this.game, this.brickScale, posX+(this.brickOffset*i), posY, brickColor)
+        brick.addClickEvent(this.brickClickHandler, this)
+      } else {
+        brickColor = color || Math.floor(Math.random() * (11 - 8)) + 8
+        brick = new PowerUp(this.game, this.brickScale, posX+(this.brickOffset*i), posY, brickColor)
+
+        brick.addClickEvent(this.powerUpClickHandler, this)
+      }
+
+
 
       rowArr.push(brick)
     }
@@ -229,11 +265,27 @@ export default class Board {
     }
   }
 
+  getBrickLocation(brick) {
+    let rowPos = ((brick.x - this.posX)/this.brickOffset) - 1
+    let colPos = ((brick.y - this.posY)/this.brickOffset) - 1
+
+    return { x: rowPos, y: colPos }
+  }
+
   deleteBrick(col, row) {
     let emptyBrick = this.createEmptyBrick(col, row)
 
     this.boardRows[col][row].destroy()
     this.boardRows[col].splice(row, 1, emptyBrick)
+  }
+
+  deleteGroup(group) {
+    // Delete group of bricks
+    for(let i=0; i<group.length; i++) {
+      let { x, y } = this.getBrickLocation(group[i])
+
+      this.deleteBrick(y, x)
+    }
   }
 
   isGameOver() {
