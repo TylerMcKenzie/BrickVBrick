@@ -62,7 +62,7 @@ export default class Board {
           let startX = this.posX+this.brickOffset
           let startY = this.posY+this.brickOffset
 
-          this.boardRows[0] = this.createColorRow(this.posX+this.brickOffset, this.posY+this.brickOffset)
+          this.boardRows[0] = this.createColorRow(startX, startY)
           this.clicks = 0
         }
       }
@@ -89,7 +89,7 @@ export default class Board {
         let startX = this.posX+this.brickOffset
         let startY = this.posY+this.brickOffset
 
-        this.boardRows[0] = this.createColorRow(this.posX+this.brickOffset, this.posY+this.brickOffset)
+        this.boardRows[0] = this.createColorRow(startX, startY)
         this.clicks = 0
       }
     }
