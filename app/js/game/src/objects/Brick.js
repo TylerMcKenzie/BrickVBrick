@@ -41,14 +41,6 @@ export default class Brick {
     this.sprite.destroy()
   }
 
-  isPowerUp() {
-    if(this.color > 8) {
-      return true
-    }
-
-    return false
-  }
-
   isEmpty() {
     if(this.color === 7) {
       return true
