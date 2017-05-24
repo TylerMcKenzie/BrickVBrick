@@ -10,7 +10,7 @@ export default class Preload extends Phaser.State {
   create() {
     this.stage.backgroundColor = COLORS.DARKBLUE
 
-    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: COLORS.YELLOWGREEN, align: 'center', fontSize: 50 }).anchor.set(0.5)
+    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: '#fff', align: 'center', fontSize: 50 }).anchor.set(0.5)
 
   }
 

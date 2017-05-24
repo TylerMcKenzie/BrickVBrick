@@ -6,9 +6,19 @@ export default class Brick {
     this.x = x
     this.y = y
 
+    // Set the sprite
     this.sprite = this.game.add.sprite(this.x, this.y, 'bricks', this.color)
     this.sprite.inputEnabled = true
     this.sprite.scale.setTo(this.scale, this.scale)
+    // Keep color bricks on top
+    this.game.world.bringToTop(this.sprite)
+
+    // Set the destroy particles
+    this.emitter = this.game.add.emitter(0, 0, 100)
+    this.emitter.makeParticles('bricks', this.color)
+    this.emitter.minParticleScale = 0.3
+    this.emitter.maxParticleScale = 0.6
+    this.emitter.gravity = 5000
   }
 
   tweenTo(x, y) {
@@ -37,7 +47,20 @@ export default class Brick {
 
   }
 
+  runDestroyAnim() {
+
+    this.game.world.bringToTop(this.emitter)
+    this.emitter.x = this.x+30
+    this.emitter.y = this.y+30
+
+    let numOfPart = Math.floor(Math.random()* 10)
+
+    this.emitter.start(true, 700, null, numOfPart)
+  }
+
   destroy() {
+    this.runDestroyAnim()
+
     this.sprite.destroy()
   }
 
