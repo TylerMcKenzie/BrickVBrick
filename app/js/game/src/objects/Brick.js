@@ -14,11 +14,11 @@ export default class Brick {
     this.game.world.bringToTop(this.sprite)
 
     // Set the destroy particles
-    this.emitter = this.game.add.emitter(0, 0, 100)
+    this.emitter = this.game.add.emitter(0, 0, 10)
     this.emitter.makeParticles('bricks', this.color)
     this.emitter.minParticleScale = 0.3
     this.emitter.maxParticleScale = 0.6
-    this.emitter.gravity = 5000
+    this.emitter.gravity = 1000
   }
 
   tweenTo(x, y) {
@@ -53,7 +53,7 @@ export default class Brick {
     this.emitter.x = this.x+30
     this.emitter.y = this.y+30
 
-    let numOfPart = Math.floor(Math.random()* 10)
+    let numOfPart = Math.floor(Math.random()* 5)+1
 
     this.emitter.start(true, 700, null, numOfPart)
   }
