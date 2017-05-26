@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class Brick {
   constructor(game, scale, x, y, color) {
     this.game = game
@@ -14,11 +16,9 @@ export default class Brick {
     this.game.world.bringToTop(this.sprite)
 
     // Set the destroy particles
-    this.emitter = this.game.add.emitter(0, 0, 10)
+    this.emitter = this.game.add.emitter(0, 0, 6)
     this.emitter.makeParticles('bricks', this.color)
-    this.emitter.minParticleScale = 0.3
-    this.emitter.maxParticleScale = 0.6
-    this.emitter.gravity = 1000
+    this.emitter.gravity = 2000
   }
 
   tweenTo(x, y) {
@@ -38,6 +38,7 @@ export default class Brick {
     if(!this.isEmpty()) {
       this.tweenTo(x, y)
     } else {
+      this.sprite.sendToBack();
       this.sprite.x = x || this.sprite.x
       this.sprite.y = y || this.sprite.y
     }
@@ -48,14 +49,11 @@ export default class Brick {
   }
 
   runDestroyAnim() {
-
     this.game.world.bringToTop(this.emitter)
     this.emitter.x = this.x+30
     this.emitter.y = this.y+30
+    this.emitter.start(false, 1000, 1, 1)
 
-    let numOfPart = Math.floor(Math.random()* 5)+1
-
-    this.emitter.start(true, 700, null, numOfPart)
   }
 
   destroy() {

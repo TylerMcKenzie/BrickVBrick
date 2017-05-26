@@ -25,13 +25,13 @@ export default class Board {
     this.posX = x - this.boardOffsetW || 200
     this.posY = y - this.boardOffsetH || 200
 
-    this.clicks = 0
+    this.moves = 0
 
     this.numOfColors = 5
 
     this.playerScore = 0;
 
-    this.scoreBoard = this.game.add.text(this.posX+this.boardWidth+50, this.boardOffsetH-this.posY, `Score: ${this.playerScore}`, { fill: '#fff' })
+    this.scoreBoard = this.game.add.text(this.posX, this.posY-50, `Score: ${this.playerScore}`, { fill: '#fff' })
 
     this.createBoard()
   }
@@ -53,9 +53,9 @@ export default class Board {
       // Add another color row and check for endgame
 
       // Increment clicks
-      this.clicks++
+      this.moves++
 
-      if(this.clicks === 2) {
+      if(this.moves === 2) {
         if(this.isGameOver()) {
           this.gameOver();
         } else {
@@ -63,7 +63,7 @@ export default class Board {
           let startY = this.posY+this.brickOffset
 
           this.boardRows[0] = this.createColorRow(startX, startY)
-          this.clicks = 0
+          this.moves = 0
         }
       }
 
@@ -80,9 +80,9 @@ export default class Board {
     powerUp.applyEffect(this)
 
     // Increment clicks
-    this.clicks++
+    this.moves++
 
-    if(this.clicks === 2) {
+    if(this.moves === 2) {
       if(this.isGameOver()) {
         this.gameOver();
       } else {
@@ -90,7 +90,7 @@ export default class Board {
         let startY = this.posY+this.brickOffset
 
         this.boardRows[0] = this.createColorRow(startX, startY)
-        this.clicks = 0
+        this.moves = 0
       }
     }
 
