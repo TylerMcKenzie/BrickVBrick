@@ -21,6 +21,8 @@ function vertDrill(board) {
 
   let column = collectColumn(x, board.boardRows.length-1)
 
+  let score = column.length
+  
   board.addScore(column.length)
 
   board.deleteGroup(column)

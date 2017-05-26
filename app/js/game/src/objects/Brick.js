@@ -12,8 +12,6 @@ export default class Brick {
     this.sprite = this.game.add.sprite(this.x, this.y, 'bricks', this.color)
     this.sprite.inputEnabled = true
     this.sprite.scale.setTo(this.scale, this.scale)
-    // Keep color bricks on top
-    this.game.world.bringToTop(this.sprite)
 
     // Set the destroy particles
     this.emitter = this.game.add.emitter(0, 0, 6)
@@ -38,7 +36,7 @@ export default class Brick {
     if(!this.isEmpty()) {
       this.tweenTo(x, y)
     } else {
-      this.sprite.sendToBack();
+      this.game.world.sendToBack(this.sprite)
       this.sprite.x = x || this.sprite.x
       this.sprite.y = y || this.sprite.y
     }
@@ -53,7 +51,6 @@ export default class Brick {
     this.emitter.x = this.x+30
     this.emitter.y = this.y+30
     this.emitter.start(false, 1000, 1, 1)
-
   }
 
   destroy() {

@@ -42,13 +42,11 @@ export default class Board {
 
       // Find all nearby colors
       let colorGroup = this.findColorGroup(y, x, brick.frame)
-
-
-      // Add to score
-      this.addScore(colorGroup.length)
+      let score = colorGroup.length
 
       // Delete Colors
       this.deleteGroup(colorGroup)
+
 
       // Add another color row and check for endgame
 
@@ -69,6 +67,9 @@ export default class Board {
 
       // Move colors down
       this.dropColumns()
+
+      // Add to score
+      this.addScore(score)
     }
   }
 
@@ -97,8 +98,27 @@ export default class Board {
     this.dropColumns();
   }
 
+  runScoreAnim(score) {
+    let text = this.game.add.text(this.game.input.mousePointer.x, this.game.input.mousePointer.y-25, `+${score}`, { fill: '#fff' })
+
+    this.game.world.bringToTop(text)
+
+    let tween = this.game.add.tween(text).to({ y: text.y-25 }, 300, "Quad.easeOut", true)
+
+    let completed = () => {
+      let tween = this.game.add.tween(text).to({ alpha: 0 }, 400, "Quad.easeOut", true)
+      tween.onComplete.add(() => text.destroy())
+    }
+
+    tween.onComplete.add(completed)
+  }
+
   addScore(score) {
-    this.playerScore += Math.floor((score)+(score/1.5))
+    let bonusScore = Math.floor((score)+(score/1.5))
+
+    this.runScoreAnim(bonusScore)
+
+    this.playerScore += bonusScore
 
     this.updateScoreBoard()
   }
@@ -229,10 +249,9 @@ export default class Board {
         brick.addClickEvent(this.powerUpClickHandler, this)
       }
 
-
-
       rowArr.push(brick)
     }
+
     return rowArr
   }
 
