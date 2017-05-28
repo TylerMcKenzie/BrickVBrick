@@ -5,6 +5,7 @@ var path = require('path');
 var PHASER_DIR = path.join(__dirname, '/node_modules/phaser/');
 var APP_DIR = path.join(__dirname, 'app');
 
+
 module.exports = {
   context: APP_DIR,
   devtool: 'eval',
@@ -19,11 +20,13 @@ module.exports = {
       'webpack/hot/dev-server',
       'webpack-hot-middleware/client?reload=true',
       './js/game/game.js'
-    ],
-    vendor: [
-      'react',
-      'react-dom'
     ]
+    // IGNORE THIS FOR NOW UNTIL I USE THIS
+    // ,
+    // vendor: [
+    //   'react',
+    //   'react-dom'
+    // ]
   },
   output: {
     filename: '[name].js',
@@ -71,7 +74,7 @@ module.exports = {
         }],
       },
       {
-        test: /\.(png|jpg|svg)$/,
+        test: /\.(png|jpg|svg|wav|mp3)$/,
         use: {
           loader: 'file-loader',
           options: {

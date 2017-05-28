@@ -5,7 +5,6 @@ import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
 
-
 export default class Board {
   constructor(game, brickScale, x, y) {
     this.game = game
@@ -25,15 +24,74 @@ export default class Board {
     this.posX = x - this.boardOffsetW || 200
     this.posY = y - this.boardOffsetH || 200
 
-    this.clicks = 0
+    this.moves = 0
 
     this.numOfColors = 5
 
     this.playerScore = 0;
 
-    this.scoreBoard = this.game.add.text(this.posX+this.boardWidth+50, this.boardOffsetH-this.posY, `Score: ${this.playerScore}`, { fill: '#fff' })
+    // Set the destroy sound
+    this.destroyBrickSound = this.game.add.audio('brickDestroy')
+    this.destroyBrickSound.volume = 1.5
+
+    // Set background music
+    this.gameMusic = this.game.add.audio('gameMusic')
+    this.gameMusic.loop = true
+    this.gameMusic.volume = 0.5
+
+    this.background = this.makeBackground()
+    this.background.start(false, 5000, 250, 0)
+
+    this.scoreBoard = this.game.add.text(this.posX, this.posY-50, `Score: ${this.playerScore}`, { fill: '#fff' })
+
+    this.settings = {}
+    this.settings.music = true
+    this.settings.sound = true
+
+    this.settingsIcon = this.game.add.sprite(this.boardWidth+this.posX-50, this.posY-50, 'settingsIcon')
+    this.settingsIcon.width = 40
+    this.settingsIcon.height = 40
+    this.settingsIcon.inputEnabled = true
+    this.settingsIcon.events.onInputDown.add(this.openSettingsModal, this)
+
 
     this.createBoard()
+
+    // this.gameMusic.play()
+  }
+
+  createSettingsModal() {
+    let width = 300
+    let height = 400
+    let menu = this.game.add.graphics(0,0)
+    menu.beginFill(0x427a8b)
+    menu.drawRect(this.game.world.centerX-(width/2), this.game.world.centerY-(height/2), width, height)
+    menu.endFill()
+    menu.beginFill(0xffffff)
+    menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
+    menu.endFill()
+    this.disableBoardInput()
+    setTimeout(() => {
+
+    }, 4000)
+  }
+
+  openSettingsModal() {
+    this.createSettingsModal()
+  }
+
+  makeBackground() {
+    let background = this.game.add.emitter(this.game.world.centerX, -100, 50)
+    background.width = this.game.world.width
+    background.minParticleScale = 0.25
+    background.maxParticleScale = 0.8
+    background.makeParticles('bricks', [0,1,2,3,4,5])
+    background.setYSpeed(50, 150)
+    background.setXSpeed(0, 0)
+    background.minRotation = 0
+    background.maxRotation = 0
+
+    return background
   }
 
   brickClickHandler(brick) {
@@ -42,20 +100,18 @@ export default class Board {
 
       // Find all nearby colors
       let colorGroup = this.findColorGroup(y, x, brick.frame)
-
-
-      // Add to score
-      this.addScore(colorGroup.length)
+      let score = colorGroup.length
 
       // Delete Colors
       this.deleteGroup(colorGroup)
 
+
       // Add another color row and check for endgame
 
       // Increment clicks
-      this.clicks++
+      this.moves++
 
-      if(this.clicks === 2) {
+      if(this.moves === 2) {
         if(this.isGameOver()) {
           this.gameOver();
         } else {
@@ -63,12 +119,15 @@ export default class Board {
           let startY = this.posY+this.brickOffset
 
           this.boardRows[0] = this.createColorRow(startX, startY)
-          this.clicks = 0
+          this.moves = 0
         }
       }
 
       // Move colors down
       this.dropColumns()
+
+      // Add to score
+      this.addScore(score)
     }
   }
 
@@ -80,9 +139,9 @@ export default class Board {
     powerUp.applyEffect(this)
 
     // Increment clicks
-    this.clicks++
+    this.moves++
 
-    if(this.clicks === 2) {
+    if(this.moves === 2) {
       if(this.isGameOver()) {
         this.gameOver();
       } else {
@@ -90,15 +149,34 @@ export default class Board {
         let startY = this.posY+this.brickOffset
 
         this.boardRows[0] = this.createColorRow(startX, startY)
-        this.clicks = 0
+        this.moves = 0
       }
     }
 
     this.dropColumns();
   }
 
+  runScoreAnim(score) {
+    let text = this.game.add.text(this.game.input.mousePointer.x, this.game.input.mousePointer.y-25, `+${score}`, { fill: '#fff' })
+
+    this.game.world.bringToTop(text)
+
+    let tween = this.game.add.tween(text).to({ y: text.y-25 }, 300, "Quad.easeOut", true)
+
+    let completed = () => {
+      let tween = this.game.add.tween(text).to({ alpha: 0 }, 400, "Quad.easeOut", true)
+      tween.onComplete.add(() => text.destroy())
+    }
+
+    tween.onComplete.add(completed)
+  }
+
   addScore(score) {
-    this.playerScore += Math.floor((score)+(score/1.5))
+    let bonusScore = Math.floor((score)+(score/1.5))
+
+    this.runScoreAnim(bonusScore)
+
+    this.playerScore += bonusScore
 
     this.updateScoreBoard()
   }
@@ -229,10 +307,9 @@ export default class Board {
         brick.addClickEvent(this.powerUpClickHandler, this)
       }
 
-
-
       rowArr.push(brick)
     }
+
     return rowArr
   }
 
@@ -286,6 +363,8 @@ export default class Board {
 
       this.deleteBrick(y, x)
     }
+
+    this.destroyBrickSound.play()
   }
 
   isGameOver() {
@@ -299,7 +378,7 @@ export default class Board {
     return bool
   }
 
-  disableBoard() {
+  disableBoardInput() {
     this.boardRows.map(col => {
       col.map(brick => {
         brick.disableClickEvents()
@@ -307,8 +386,16 @@ export default class Board {
     })
   }
 
+  enableBoardInput() {
+    this.boardRows.map(col => {
+      col.map(brick => {
+        brick.enableClickEvents()
+      })
+    })
+  }
+
   gameOver() {
-    this.disableBoard()
+    this.disableBoardInput()
 
     // Use game board because Im lazy yo
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`

@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export default class Brick {
   constructor(game, scale, x, y, color) {
     this.game = game
@@ -6,9 +8,15 @@ export default class Brick {
     this.x = x
     this.y = y
 
+    // Set the sprite
     this.sprite = this.game.add.sprite(this.x, this.y, 'bricks', this.color)
     this.sprite.inputEnabled = true
     this.sprite.scale.setTo(this.scale, this.scale)
+
+    // Set the destroy particles
+    this.emitter = this.game.add.emitter(0, 0, 6)
+    this.emitter.makeParticles('bricks', this.color)
+    this.emitter.gravity = 2000
   }
 
   tweenTo(x, y) {
@@ -17,6 +25,10 @@ export default class Brick {
 
   addClickEvent(handler, object) {
     this.sprite.events.onInputDown.add(handler, object)
+  }
+
+  enableClickEvents() {
+    this.sprite.inputEnabled = true
   }
 
   disableClickEvents() {
@@ -28,6 +40,7 @@ export default class Brick {
     if(!this.isEmpty()) {
       this.tweenTo(x, y)
     } else {
+      this.game.world.sendToBack(this.sprite)
       this.sprite.x = x || this.sprite.x
       this.sprite.y = y || this.sprite.y
     }
@@ -37,7 +50,16 @@ export default class Brick {
 
   }
 
+  runDestroyAnim() {
+    this.game.world.bringToTop(this.emitter)
+    this.emitter.x = this.x+30
+    this.emitter.y = this.y+30
+    this.emitter.start(false, 1000, 1, 1)
+  }
+
   destroy() {
+    this.runDestroyAnim()
+
     this.sprite.destroy()
   }
 
