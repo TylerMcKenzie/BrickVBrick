@@ -64,16 +64,14 @@ export default class Board {
     let width = 300
     let height = 400
     let menu = this.game.add.graphics(0,0)
-    menu.beginFill(0x427a8b)
+    menu.beginFill(0x39bb8f)
     menu.drawRect(this.game.world.centerX-(width/2), this.game.world.centerY-(height/2), width, height)
     menu.endFill()
     menu.beginFill(0xffffff)
     menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
     menu.endFill()
+    
     this.disableBoardInput()
-    setTimeout(() => {
-      this.enableBoardInput()
-    }, 4000)
   }
 
   openSettingsModal() {
