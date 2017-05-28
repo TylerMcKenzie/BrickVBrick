@@ -72,7 +72,7 @@ export default class Board {
     menu.endFill()
     this.disableBoardInput()
     setTimeout(() => {
-
+      this.enableBoardInput()
     }, 4000)
   }
 
