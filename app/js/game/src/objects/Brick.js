@@ -27,6 +27,10 @@ export default class Brick {
     this.sprite.events.onInputDown.add(handler, object)
   }
 
+  enableClickEvents() {
+    this.sprite.inputEnabled = true
+  }
+
   disableClickEvents() {
     this.sprite.inputEnabled = false
   }

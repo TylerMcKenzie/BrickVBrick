@@ -39,22 +39,59 @@ export default class Board {
     this.gameMusic.loop = true
     this.gameMusic.volume = 0.5
 
-    this.background = this.game.add.emitter(game.world.centerX, -100, 50)
-    this.background.width = this.game.world.width
-    this.background.minParticleScale = 0.25
-    this.background.maxParticleScale = 0.8
-    this.background.makeParticles('bricks', [0,1,2,3,4,5])
-    this.background.setYSpeed(50, 150)
-    this.background.setXSpeed(0, 0)
-    this.background.minRotation = 0
-    this.background.maxRotation = 0
+    this.background = this.makeBackground()
     this.background.start(false, 5000, 250, 0)
 
     this.scoreBoard = this.game.add.text(this.posX, this.posY-50, `Score: ${this.playerScore}`, { fill: '#fff' })
 
+    this.settings = {}
+    this.settings.music = true
+    this.settings.sound = true
+
+    this.settingsIcon = this.game.add.sprite(this.boardWidth+this.posX-50, this.posY-50, 'settingsIcon')
+    this.settingsIcon.width = 40
+    this.settingsIcon.height = 40
+    this.settingsIcon.inputEnabled = true
+    this.settingsIcon.events.onInputDown.add(this.openSettingsModal, this)
+
+
     this.createBoard()
 
-    this.gameMusic.play()
+    // this.gameMusic.play()
+  }
+
+  createSettingsModal() {
+    let width = 300
+    let height = 400
+    let menu = this.game.add.graphics(0,0)
+    menu.beginFill(0x427a8b)
+    menu.drawRect(this.game.world.centerX-(width/2), this.game.world.centerY-(height/2), width, height)
+    menu.endFill()
+    menu.beginFill(0xffffff)
+    menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
+    menu.endFill()
+    this.disableBoardInput()
+    setTimeout(() => {
+
+    }, 4000)
+  }
+
+  openSettingsModal() {
+    this.createSettingsModal()
+  }
+
+  makeBackground() {
+    let background = this.game.add.emitter(this.game.world.centerX, -100, 50)
+    background.width = this.game.world.width
+    background.minParticleScale = 0.25
+    background.maxParticleScale = 0.8
+    background.makeParticles('bricks', [0,1,2,3,4,5])
+    background.setYSpeed(50, 150)
+    background.setXSpeed(0, 0)
+    background.minRotation = 0
+    background.maxRotation = 0
+
+    return background
   }
 
   brickClickHandler(brick) {
@@ -341,7 +378,7 @@ export default class Board {
     return bool
   }
 
-  disableBoard() {
+  disableBoardInput() {
     this.boardRows.map(col => {
       col.map(brick => {
         brick.disableClickEvents()
@@ -349,8 +386,16 @@ export default class Board {
     })
   }
 
+  enableBoardInput() {
+    this.boardRows.map(col => {
+      col.map(brick => {
+        brick.enableClickEvents()
+      })
+    })
+  }
+
   gameOver() {
-    this.disableBoard()
+    this.disableBoardInput()
 
     // Use game board because Im lazy yo
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`

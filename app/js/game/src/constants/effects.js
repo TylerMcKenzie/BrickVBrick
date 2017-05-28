@@ -86,7 +86,7 @@ function radialBomb(board) {
   }
 
   // Clean empty bricks
-  for(let i=0;i<bombedGroup.length;i++) {
+  for(let i=bombedGroup.length-1;i>0;i--) {
     if(bombedGroup[i].isEmpty()) {
       bombedGroup.splice(i, 1)
     }
