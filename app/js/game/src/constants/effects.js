@@ -22,10 +22,10 @@ function vertDrill(board) {
   let column = collectColumn(x, board.boardRows.length-1)
 
   let score = column.length
-  
-  board.addScore(column.length)
 
   board.deleteGroup(column)
+
+  board.addScore(score)
 }
 
 function horizDrill(board) {
@@ -39,9 +39,11 @@ function horizDrill(board) {
     }
   }
 
-  board.addScore(drilledGroup.length)
+  let score = drilledGroup.length
 
   board.deleteGroup(drilledGroup)
+
+  board.addScore(score)
 }
 
 function radialBomb(board) {
@@ -90,9 +92,11 @@ function radialBomb(board) {
     }
   }
 
-  board.addScore(bombedGroup.length)
+  let score = bombedGroup.length
 
   board.deleteGroup(bombedGroup)
+
+  board.addScore(score)
 }
 
 export default function getEffect(effectId) {

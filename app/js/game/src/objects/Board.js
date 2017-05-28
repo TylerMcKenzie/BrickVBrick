@@ -5,7 +5,6 @@ import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
 
-
 export default class Board {
   constructor(game, brickScale, x, y) {
     this.game = game
@@ -31,9 +30,31 @@ export default class Board {
 
     this.playerScore = 0;
 
+    // Set the destroy sound
+    this.destroyBrickSound = this.game.add.audio('brickDestroy')
+    this.destroyBrickSound.volume = 1.5
+
+    // Set background music
+    this.gameMusic = this.game.add.audio('gameMusic')
+    this.gameMusic.loop = true
+    this.gameMusic.volume = 0.5
+
+    this.background = this.game.add.emitter(game.world.centerX, -100, 50)
+    this.background.width = this.game.world.width
+    this.background.minParticleScale = 0.25
+    this.background.maxParticleScale = 0.8
+    this.background.makeParticles('bricks', [0,1,2,3,4,5])
+    this.background.setYSpeed(50, 150)
+    this.background.setXSpeed(0, 0)
+    this.background.minRotation = 0
+    this.background.maxRotation = 0
+    this.background.start(false, 5000, 250, 0)
+
     this.scoreBoard = this.game.add.text(this.posX, this.posY-50, `Score: ${this.playerScore}`, { fill: '#fff' })
 
     this.createBoard()
+
+    this.gameMusic.play()
   }
 
   brickClickHandler(brick) {
@@ -305,6 +326,8 @@ export default class Board {
 
       this.deleteBrick(y, x)
     }
+
+    this.destroyBrickSound.play()
   }
 
   isGameOver() {
