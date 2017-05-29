@@ -1,6 +1,6 @@
 import Brick from './Brick'
 import PowerUp from './PowerUp'
-import { SIZES } from '../constants'
+import { SIZES, mobile } from '../constants'
 import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
@@ -10,7 +10,7 @@ export default class Board {
     this.game = game
     this.boardRows = []
     this.brickSize = BRICKSIZE
-    this.brickScale = brickScale || 0.75
+    this.brickScale = brickScale
 
     this.brickOffset = this.brickSize * this.brickScale
 
@@ -21,8 +21,8 @@ export default class Board {
     this.boardOffsetH = (this.boardHeight)/2
 
 
-    this.posX = x - this.boardOffsetW || 200
-    this.posY = y - this.boardOffsetH || 200
+    this.posX = x - this.boardOffsetW
+    this.posY = y - this.boardOffsetH
 
     this.moves = 0
 
@@ -39,18 +39,21 @@ export default class Board {
     this.gameMusic.loop = true
     this.gameMusic.volume = 0.5
 
-    this.background = this.makeBackground()
-    this.background.start(false, 5000, 250, 0)
+    if(!mobile) {
+      this.background = this.makeBackground()
+      this.background.start(false, 5000, 250, 0)
+    }
 
-    this.scoreBoard = this.game.add.text(this.posX, this.posY-50, `Score: ${this.playerScore}`, { fill: '#fff' })
+
+    this.scoreBoard = this.game.add.text(this.posX, this.posY-(100*this.brickScale), `Score: ${this.playerScore}`, { fill: '#fff', fontSize: 60*this.brickScale })
 
     this.settings = {}
     this.settings.music = true
     this.settings.sound = true
 
-    this.settingsIcon = this.game.add.sprite(this.boardWidth+this.posX-50, this.posY-50, 'settingsIcon')
-    this.settingsIcon.width = 40
-    this.settingsIcon.height = 40
+    this.settingsIcon = this.game.add.sprite(this.boardWidth+this.posX-(90*this.brickScale), this.posY-(90*this.brickScale), 'settingsIcon')
+    this.settingsIcon.width = 75* this.brickScale
+    this.settingsIcon.height = 75* this.brickScale
     this.settingsIcon.inputEnabled = true
     this.settingsIcon.events.onInputDown.add(this.openSettingsModal, this)
 
@@ -64,16 +67,14 @@ export default class Board {
     let width = 300
     let height = 400
     let menu = this.game.add.graphics(0,0)
-    menu.beginFill(0x427a8b)
+    menu.beginFill(0x39bb8f)
     menu.drawRect(this.game.world.centerX-(width/2), this.game.world.centerY-(height/2), width, height)
     menu.endFill()
     menu.beginFill(0xffffff)
     menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
     menu.endFill()
-    this.disableBoardInput()
-    setTimeout(() => {
 
-    }, 4000)
+    this.disableBoardInput()
   }
 
   openSettingsModal() {
@@ -83,10 +84,10 @@ export default class Board {
   makeBackground() {
     let background = this.game.add.emitter(this.game.world.centerX, -100, 50)
     background.width = this.game.world.width
-    background.minParticleScale = 0.25
-    background.maxParticleScale = 0.8
+    background.minParticleScale = 0.25*this.brickScale
+    background.maxParticleScale = 0.8*this.brickScale
     background.makeParticles('bricks', [0,1,2,3,4,5])
-    background.setYSpeed(50, 150)
+    background.setYSpeed((50*this.brickScale), (150*this.brickScale))
     background.setXSpeed(0, 0)
     background.minRotation = 0
     background.maxRotation = 0
@@ -157,11 +158,11 @@ export default class Board {
   }
 
   runScoreAnim(score) {
-    let text = this.game.add.text(this.game.input.mousePointer.x, this.game.input.mousePointer.y-25, `+${score}`, { fill: '#fff' })
+    let text = this.game.add.text(this.game.input.x, this.game.input.y-(50*this.brickScale), `+${score}`, { fill: '#fff', fontSize: 60*this.brickScale })
 
     this.game.world.bringToTop(text)
 
-    let tween = this.game.add.tween(text).to({ y: text.y-25 }, 300, "Quad.easeOut", true)
+    let tween = this.game.add.tween(text).to({ y: text.y-(50*this.brickScale) }, 300, "Quad.easeOut", true)
 
     let completed = () => {
       let tween = this.game.add.tween(text).to({ alpha: 0 }, 400, "Quad.easeOut", true)

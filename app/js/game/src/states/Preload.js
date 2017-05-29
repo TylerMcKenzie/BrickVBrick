@@ -1,5 +1,5 @@
 import { COLORS, SIZES } from '../constants'
-import brickSpriteSrc from '../assets/sprites/bricksSpaced-V2.png'
+import brickSpriteSrc from '../assets/sprites/bricksScaled720X240.png'
 import brickDestroyWavSrc from '../assets/sounds/brick_destroy.wav'
 import gameMusicWavSrc from '../assets/sounds/game_music.wav'
 import settingsIcon from '../assets/sprites/settings-50.png'
@@ -13,12 +13,11 @@ export default class Preload extends Phaser.State {
   create() {
     this.stage.backgroundColor = COLORS.DARKBLUE
 
-    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: '#fff', align: 'center', fontSize: 50 }).anchor.set(0.5)
-
+    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: '#fff', align: 'center', fontSize: 50*SIZES.SCALERATIO }).anchor.set(0.5)
   }
 
   loadResources() {
-    this.game.load.spritesheet('bricks', brickSpriteSrc, 60, 60, 11)
+    this.game.load.spritesheet('bricks', brickSpriteSrc, SIZES.BRICKSIZE, SIZES.BRICKSIZE, 11)
     this.game.load.image('settingsIcon', settingsIcon)
     this.game.load.audio('brickDestroy', brickDestroyWavSrc)
     this.game.load.audio('gameMusic', gameMusicWavSrc)

@@ -1,0 +1,1 @@
+webpackJsonp([0],{12:function(t,a){alert("this is javascript babel")},31:function(t,a,i){t.exports=i(12)}},[31]);
