@@ -15,10 +15,6 @@ module.exports = {
     ],
     game: [
       './js/game/game.js'
-    ],
-    vendor: [
-      'react',
-      'react-dom'
     ]
   },
   output: {
@@ -67,7 +63,7 @@ module.exports = {
         }],
       },
       {
-        test: /\.(png|jpg|svg)$/,
+        test: /\.(png|jpg|svg|wav|mp3)$/,
         use: {
           loader: 'file-loader',
           options: {

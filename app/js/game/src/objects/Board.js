@@ -60,7 +60,7 @@ export default class Board {
 
     this.createBoard()
 
-    // this.gameMusic.play()
+    this.gameMusic.play()
   }
 
   createSettingsModal() {
@@ -78,7 +78,7 @@ export default class Board {
   }
 
   openSettingsModal() {
-    this.createSettingsModal()
+    // this.createSettingsModal()
   }
 
   makeBackground() {
