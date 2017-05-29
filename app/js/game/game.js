@@ -4,6 +4,8 @@ import 'p2'
 
 import Phaser from 'phaser'
 import { Main, Preload} from './src/states'
+import { SIZES } from './src/constants'
+let { SCREENWIDTH, SCREENHEIGHT } = SIZES
 
 class Game extends Phaser.Game {
   constructor(width, height, canvas) {
@@ -14,4 +16,4 @@ class Game extends Phaser.Game {
   }
 }
 
-new Game("100%", "100%", Phaser.AUTO)
+new Game(SCREENWIDTH, SCREENHEIGHT, Phaser.CANVAS)

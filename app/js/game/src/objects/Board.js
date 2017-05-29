@@ -10,7 +10,7 @@ export default class Board {
     this.game = game
     this.boardRows = []
     this.brickSize = BRICKSIZE
-    this.brickScale = brickScale || 0.75
+    this.brickScale = brickScale
 
     this.brickOffset = this.brickSize * this.brickScale
 
@@ -21,8 +21,8 @@ export default class Board {
     this.boardOffsetH = (this.boardHeight)/2
 
 
-    this.posX = x - this.boardOffsetW || 200
-    this.posY = y - this.boardOffsetH || 200
+    this.posX = x - this.boardOffsetW
+    this.posY = y - this.boardOffsetH
 
     this.moves = 0
 
@@ -70,7 +70,7 @@ export default class Board {
     menu.beginFill(0xffffff)
     menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
     menu.endFill()
-    
+
     this.disableBoardInput()
   }
 
