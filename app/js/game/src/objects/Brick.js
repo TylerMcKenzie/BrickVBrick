@@ -14,9 +14,9 @@ export default class Brick {
     // Set the destroy particles
     this.emitter = this.game.add.emitter(0, 0, 6)
     this.emitter.makeParticles('bricks', this.color)
-    this.emitter.minParticleScale = scale
-    this.emitter.maxParticleScale = scale
-    this.emitter.gravity = 2000
+    this.emitter.minParticleScale = this.scale
+    this.emitter.maxParticleScale = this.scale
+    this.emitter.gravity = 2000*this.scale
   }
 
   tweenTo(x, y) {
