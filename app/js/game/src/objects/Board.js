@@ -48,8 +48,8 @@ export default class Board {
     this.scoreBoard = this.game.add.text(this.posX, this.posY-(100*this.brickScale), `Score: ${this.playerScore}`, { fill: '#fff', fontSize: 60*this.brickScale })
 
     this.settings = {}
-    this.settings.music = true
-    this.settings.sound = true
+    this.settings.music = "on"
+    this.settings.sound = "on"
 
     this.settingsIcon = this.game.add.sprite(this.boardWidth+this.posX-(90*this.brickScale), this.posY-(90*this.brickScale), 'settingsIcon')
     this.settingsIcon.width = 75* this.brickScale
@@ -64,21 +64,78 @@ export default class Board {
   }
 
   createSettingsModal() {
-    let width = 300
-    let height = 400
+    this.disableBoardInput()
+
+    let modalGroup = this.game.add.group()
+    modalGroup.destroyChildren = true
+
+    let width = 600*this.brickScale
+    let height = 800*this.brickScale
     let menu = this.game.add.graphics(0,0)
+
+    let menuPosX = this.game.world.centerX-(width/2)
+    let menuPosY = this.game.world.centerY-(height/2)
+
     menu.beginFill(0x39bb8f)
-    menu.drawRect(this.game.world.centerX-(width/2), this.game.world.centerY-(height/2), width, height)
+    menu.drawRect(menuPosX, menuPosY, width, height)
     menu.endFill()
     menu.beginFill(0xffffff)
-    menu.drawRect(this.game.world.centerX-(width/2)+5, this.game.world.centerY-(height/2)+5, width-10, height-10)
+    menu.drawRect(menuPosX+(15*this.brickScale), menuPosY+(15*this.brickScale), width-(30*this.brickScale), height-(30*this.brickScale))
     menu.endFill()
 
-    this.disableBoardInput()
+    modalGroup.add(menu)
+
+    let closeMenuButton = this.game.add.text(menuPosX+width-(75*this.brickScale), menuPosY+(25*this.brickScale), 'X', { fill: '#427a8b', fontSize: 70*this.brickScale})
+    modalGroup.add(closeMenuButton)
+
+    let musicMenuText = this.game.add.text(menuPosX+menu.centerX-(175*this.brickScale), menuPosY+menu.centerY-(155*this.brickScale), `Music`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    modalGroup.add(musicMenuText)
+
+    let soundMenuText = this.game.add.text(menuPosX+menu.centerX-(175*this.brickScale), menuPosY+menu.centerY+(100*this.brickScale), `Sound`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    modalGroup.add(soundMenuText)
+
+    let musicSettingText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+menu.centerY-(155*this.brickScale), `${this.settings.music}`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    modalGroup.add(musicSettingText)
+
+    let soundSettingText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+menu.centerY+(100*this.brickScale), `${this.settings.sound}`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    modalGroup.add(soundSettingText)
+
+    musicSettingText.inputEnabled = true
+    musicSettingText.events.onInputDown.add(this.toggleSetting.bind(this, 'music'))
+
+    soundSettingText.inputEnabled = true
+    soundSettingText.events.onInputDown.add(this.toggleSetting.bind(this, 'sound'))
+
+    closeMenuButton.inputEnabled = true
+    closeMenuButton.events.onInputDown.add(this.closeSettingsMenu.bind(this, modalGroup))
+  }
+
+  toggleSetting(setting, textNode) {
+    if(this.settings[setting] === "on") {
+      this.settings[setting] = "off"
+      textNode.text = this.settings[setting]
+
+      if(setting === "music") {
+        this.gameMusic.stop()
+      }
+    } else if(this.settings[setting] === "off") {
+      this.settings[setting] = "on"
+      textNode.text = this.settings[setting]
+
+      if(setting === "music") {
+        this.gameMusic.play()
+      }
+    }
   }
 
   openSettingsModal() {
-    // this.createSettingsModal()
+    this.createSettingsModal()
+  }
+
+  closeSettingsMenu(modal) {
+    modal.destroy()
+
+    this.enableBoardInput()
   }
 
   makeBackground() {
@@ -365,7 +422,9 @@ export default class Board {
       this.deleteBrick(y, x)
     }
 
-    this.destroyBrickSound.play()
+    if(this.settings.sound === "on") {
+      this.destroyBrickSound.play()
+    }
   }
 
   isGameOver() {
