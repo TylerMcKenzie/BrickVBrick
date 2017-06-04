@@ -93,7 +93,9 @@ module.exports = function(app, passport) {
   // Get Game menu
   app.get('/game', isSignedIn, gamesController.mainMenu);
 
-  // Start a Game
+  // Start a Solo Game
   app.get('/game/play', isSignedIn, gamesController.start);
 
+  // Multiplayer
+  app.get('/game/multiplayer', isSignedIn, gamesController.multiplayer)
 };

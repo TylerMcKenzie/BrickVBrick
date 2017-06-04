@@ -10,10 +10,15 @@ export default class Preload extends Phaser.State {
     this.loadResources()
   }
 
+  init(param) {
+    let { multiplayer } = param
+    this.multiplayer = multiplayer
+  }
+
   create() {
     this.stage.backgroundColor = COLORS.DARKBLUE
 
-    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: '#fff', align: 'center', fontSize: 50*SIZES.SCALERATIO }).anchor.set(0.5)
+    this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Loading ...", { fill: '#fff', align: 'center', fontSize: 150*SIZES.SCALERATIO }).anchor.set(0.5)
   }
 
   loadResources() {
@@ -26,7 +31,7 @@ export default class Preload extends Phaser.State {
 
   update() {
     if(this.ready) {
-      this.game.state.start('Main')
+      this.game.state.start('Main', true, false, this.multiplayer)
     }
   }
 

@@ -12,8 +12,24 @@ class Game extends Phaser.Game {
     super(width, height, canvas)
     this.state.add('Preload', Preload, false)
     this.state.add('Main', Main, false);
-    this.state.start('Preload');
+  }
+
+  startSolo() {
+    this.state.start('Preload', true, false, { multiplayer: false })
+  }
+
+  startMultiplayer() {
+    this.state.start('Preload', true, false, { multiplayer: true })
   }
 }
 
-new Game(SCREENWIDTH, SCREENHEIGHT, Phaser.CANVAS)
+let multiplayerRegex = new RegExp('/game/multiplayer')
+let soloPlayerRegex = new RegExp('/game/play')
+
+let game = new Game(SCREENWIDTH, SCREENHEIGHT, Phaser.CANVAS)
+
+if(multiplayerRegex.test(window.location)) {
+  game.startMultiplayer()
+} else if(soloPlayerRegex.test(window.location)) {
+  game.startSolo()
+}

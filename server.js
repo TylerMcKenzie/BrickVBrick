@@ -107,25 +107,44 @@ require('./server/routes')(app, passport);
 // SocketIo for WebSockets
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-// Set up initial number of rooms
-var roomNum = 1;
-
-io.on('connection', function(client) {
-  // console.log('Client -- %s -- connected to the server', client.id);
-  if(io.nsps['/'].adapter.rooms['room-'+roomNum] && io.nsps['/'].adapter.rooms['room-'+roomNum].length === 2) {
-    // Add room so this means 2 per room
-    roomNum++;
-  }
-
-  var nsp = io.of('/room-'+roomNum);
-  // console.log('joining room no. '+roomNum)
-  client.join('room-'+roomNum);
-
-  io.sockets.in('room-'+roomNum).emit('connectToRoom', roomNum);
+// Games List
+var gameList = []
 
 
+io.on('connection', function(socket) {
+  // console.log('Client -- %s -- connected to the server', socket.id);
 
-  client.on('disconnect', function() {
+  socket.on('make game', function() {
+    var gameId = (Math.random()+1).toString(32).slice(2,18);
+
+    var game = {
+        gameId: gameId,
+        playerOne: socket.id,
+        playerTwo: null
+    }
+
+    gameList.push(game)
+
+    io.emit('waiting for opponent')
+  })
+
+  socket.on('join game', function(playerId) {
+    if(gameList.length) {
+      for(var i=0; i<gameList.length;i++) {
+        if(!gameList[i].playerTwo) {
+          gameList.playerTwo = socket.id
+
+          io.emit('start game', gameList[i])
+
+          break;
+        }
+      }
+    } else {
+      socket.emit('make game')
+    }
+  })
+
+  socket.on('disconnect', function() {
     io.sockets.in('room-'+roomNum).emit('playerDisconnect');
   })
 })
