@@ -20,16 +20,16 @@ export default class Main extends Phaser.State {
       this.myBoard.background.destroy() // Delete this later
 
       const socket = io()
+      console.log(socket.id)
+      socket.emit('join game', socket.id)
 
-      window.sendMessage = function(id, msg) {
-        console.log(socket.id)
-        socket.emit('message', id, msg)
-      }
-
-      socket.on('send message', function(data) {
-        console.log(data)
+      socket.on('waiting for opponent', function() {
+        console.log('waiting')
       })
 
+      socket.on('start game', function(game) {
+        console.log(game)
+      })
       // this.opponentBoard = new Board(this.game, SCALERATIO, this.game.world.centerX*1.5, this.game.world.centerY)
       // this.opponentBoard.disableBoardInput()
       // this.opponentBoard.background.destroy()

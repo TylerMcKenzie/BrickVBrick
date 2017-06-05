@@ -113,34 +113,71 @@ var gameList = []
 
 io.on('connection', function(socket) {
   // console.log('Client -- %s -- connected to the server', socket.id);
+  socket.on('set username', function(uname) {
+    socket.username = uname
+  })
 
-  socket.on('make game', function() {
+  function makeGame(username) {
+    console.log('-------------------------')
+    console.log('making game')
     var gameId = (Math.random()+1).toString(32).slice(2,18);
 
     var game = {
         gameId: gameId,
-        playerOne: socket.id,
-        playerTwo: null
+        playerOne: {
+          id: socket.id,
+        }
     }
 
     gameList.push(game)
 
-    io.emit('waiting for opponent')
-  })
+    console.log('-----------GAMELIST--------------')
+    console.log(JSON.stringify(gameList))
+    console.log('-----------GAMELIST--------------')
+
+
+    socket.join(gameId)
+
+    io.to(gameId).emit('waiting for opponent')
+  }
+
 
   socket.on('join game', function(playerId) {
+    console.log('-----------ARGS--------------')
+    console.log(playerId)
+    console.log('-----------ARGS--------------')
     if(gameList.length) {
+      console.log('-------------------------')
+      console.log('checking for games')
+      console.log('-----------GAMELIST--------------')
+      console.log(JSON.stringify(gameList))
+      console.log('-----------GAMELIST--------------')
       for(var i=0; i<gameList.length;i++) {
         if(!gameList[i].playerTwo) {
-          gameList.playerTwo = socket.id
+          console.log('-------------------------')
+          console.log('joining')
+          console.log('-------------------------')
+          gameList[i].playerTwo = {
+            id: socket.id,
+          }
 
-          io.emit('start game', gameList[i])
+          socket.join(gameList[i].gameId)
 
-          break;
+          io.to(gameList[i].gameId).emit('start game', gameList[i])
+          console.log('-----------GAMELIST--------------')
+          console.log(JSON.stringify(gameList))
+          console.log('-----------GAMELIST--------------')
+          break
+        } else if(i == gameList.length-1 && gameList[gameList.length-1].playerOne != socket.id){
+          console.log('-------------------------')
+          makeGame()
+          break
         }
       }
     } else {
-      socket.emit('make game')
+      console.log('-------------------------')
+      console.log('make game')
+      makeGame()
     }
   })
 
