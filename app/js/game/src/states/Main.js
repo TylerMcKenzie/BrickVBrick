@@ -21,10 +21,6 @@ export default class Main extends Phaser.State {
 
       const socket = io()
 
-      socket.on('connectToRoom', function(data) {
-        console.log(data)
-      })
-
       window.sendMessage = function(id, msg) {
         console.log(socket.id)
         socket.emit('message', id, msg)
