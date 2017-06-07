@@ -107,7 +107,8 @@ require('./server/routes')(app, passport);
 // SocketIo for WebSockets
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-// Games List
+
+// Games Server Logic
 var gameList = []
 
 
@@ -143,20 +144,20 @@ io.on('connection', function(socket) {
 
 
   socket.on('join game', function(playerId) {
-    console.log('-----------ARGS--------------')
-    console.log(playerId)
-    console.log('-----------ARGS--------------')
     if(gameList.length) {
       console.log('-------------------------')
       console.log('checking for games')
+      console.log('-------------------------')
       console.log('-----------GAMELIST--------------')
       console.log(JSON.stringify(gameList))
       console.log('-----------GAMELIST--------------')
+
       for(var i=0; i<gameList.length;i++) {
         if(!gameList[i].playerTwo) {
           console.log('-------------------------')
-          console.log('joining')
+          console.log('joining game '+ JSON.stringify(gameList[i]))
           console.log('-------------------------')
+
           gameList[i].playerTwo = {
             id: socket.id,
           }
@@ -164,9 +165,11 @@ io.on('connection', function(socket) {
           socket.join(gameList[i].gameId)
 
           io.to(gameList[i].gameId).emit('start game', gameList[i])
+
           console.log('-----------GAMELIST--------------')
           console.log(JSON.stringify(gameList))
           console.log('-----------GAMELIST--------------')
+
           break
         } else if(i == gameList.length-1 && gameList[gameList.length-1].playerOne != socket.id){
           console.log('-------------------------')
@@ -177,6 +180,7 @@ io.on('connection', function(socket) {
     } else {
       console.log('-------------------------')
       console.log('make game')
+      console.log('-------------------------')
       makeGame()
     }
   })
