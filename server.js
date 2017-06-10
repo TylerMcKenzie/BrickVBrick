@@ -109,14 +109,10 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
 // Games Server Logic
-var gameList = []
-
+var GameManager = require('./server/sockets/GameManager');
 
 io.on('connection', function(socket) {
   // console.log('Client -- %s -- connected to the server', socket.id);
-  socket.on('set username', function(uname) {
-    socket.username = uname
-  })
 
   function makeGame(username) {
     console.log('-------------------------')
