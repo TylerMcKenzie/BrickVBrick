@@ -60,7 +60,11 @@ export default class Board {
 
     this.createBoard()
 
-    this.gameMusic.play()
+    // this.gameMusic.play()
+  }
+
+  hideSettings() {
+    this.settingsIcon.visible = false
   }
 
   createSettingsModal() {

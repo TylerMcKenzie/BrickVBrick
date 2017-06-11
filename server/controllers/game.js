@@ -6,5 +6,9 @@ module.exports = {
   start: function(req, res) {
     // Render Game Play layout
     res.render('game/play');
+  },
+  multiplayer: function(req, res) {
+    // Render Multiplayer Layout
+    res.render('game/multiplayer');
   }
 }
