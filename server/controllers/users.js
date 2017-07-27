@@ -31,29 +31,35 @@ module.exports = {
                  }
 
                 //  Build empty score and add data
-                 var score = Score.build();
+                 if(req.body.score && !isNaN(req.body.score)) {
+                   var score = Score.build();
 
-                 score.score = req.body.score
-                 score.date = new Date()
 
-                 if(user.highScore < req.body.score) { // If this score is new highscore update user
-                   user.update({highScore: req.body.score})
+                   score.score = req.body.score
+                   score.date = new Date()
+
+                   if(user.highScore < req.body.score) { // If this score is new highscore update user
+                     user.update({highScore: score.score})
+                   }
+
+                   // If score saves then associate it with the current user in session and catch all errs for debug
+                   score.save()
+                        .then(function(score) {
+                          user.addScore(score)
+                              .then(function(user) {
+                                return res.status(200).send({ message: "Score saved."})
+                              })
+                              .catch(function(err) {
+                                return res.status(400).send(err)
+                              })
+                        })
+                        .catch(function(err) {
+                          return res.status(400).send(err)
+                        })
+                 } else {
+                  return res.status(500).send({ message: "There was a problem :("})
                  }
 
-                 // If score saves then associate it with the current user in session and catch all errs for debug
-                 score.save()
-                      .then(function(score) {
-                        user.addScore(score)
-                            .then(function(user) {
-                              return res.status(200).send({ message: "Score saved."})
-                            })
-                            .catch(function(err) {
-                              return res.status(400).send(err)
-                            })
-                      })
-                      .catch(function(err) {
-                        return res.status(400).send(err)
-                      })
                })
   },
   retrieve: function(req, res) {
@@ -80,7 +86,7 @@ module.exports = {
     }
   },
   update: function(req, res) {
-    return User.findById(req.params.id)
+    return User.findById(req.user.id)
           .then(function(user) {
             if(!user) { // If no user 404
               return res.status(404).send({ errorMessage: 'User Not Found.' })
@@ -104,7 +110,7 @@ module.exports = {
   },
   deactivate: function(req, res) {
     // Find user and delete it
-    return User.findById(req.params.id)
+    return User.findById(req.user.id)
           .then(function(user) {
             if(!user) { // If no user 404
               return res.status(404).send({ errorMessage: 'User Not Found.' })
