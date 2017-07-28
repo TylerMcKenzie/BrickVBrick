@@ -115,39 +115,39 @@ var gameList = []
 io.on('connection', function(socket) {
   // console.log('Client -- %s -- connected to the server', socket.id);
 
-  socket.on('make game', function() {
-    var gameId = (Math.random()+1).toString(32).slice(2,18);
+  // socket.on('make game', function() {
+  //   var gameId = (Math.random()+1).toString(32).slice(2,18);
 
-    var game = {
-        gameId: gameId,
-        playerOne: socket.id,
-        playerTwo: null
-    }
+  //   var game = {
+  //       gameId: gameId,
+  //       playerOne: socket.id,
+  //       playerTwo: null
+  //   }
 
-    gameList.push(game)
+  //   gameList.push(game)
 
-    io.emit('waiting for opponent')
-  })
+  //   io.emit('waiting for opponent')
+  // })
 
-  socket.on('join game', function(playerId) {
-    if(gameList.length) {
-      for(var i=0; i<gameList.length;i++) {
-        if(!gameList[i].playerTwo) {
-          gameList.playerTwo = socket.id
+  // socket.on('join game', function(playerId) {
+  //   if(gameList.length) {
+  //     for(var i=0; i<gameList.length;i++) {
+  //       if(!gameList[i].playerTwo) {
+  //         gameList.playerTwo = socket.id
 
-          io.emit('start game', gameList[i])
+  //         io.emit('start game', gameList[i])
 
-          break;
-        }
-      }
-    } else {
-      socket.emit('make game')
-    }
-  })
+  //         break;
+  //       }
+  //     }
+  //   } else {
+  //     socket.emit('make game')
+  //   }
+  // })
 
-  socket.on('disconnect', function() {
-    io.sockets.in('room-'+roomNum).emit('playerDisconnect');
-  })
+  // socket.on('disconnect', function() {
+  //   io.sockets.in('room-'+roomNum).emit('playerDisconnect');
+  // })
 })
 
 
