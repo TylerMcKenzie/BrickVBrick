@@ -16,7 +16,7 @@ export default class Main extends Phaser.State {
     this.game.forceSingleUpdate = true
 
     if(this.multiplayer) {
-      this.myBoard = new Board(this.game, SCALERATIO, this.game.world.centerX/2, this.game.world.centerY)
+      this.myBoard = new Game(this.game, SCALERATIO, this.game.world.centerX/2, this.game.world.centerY)
       this.myBoard.background.destroy() // Delete this later
 
       const socket = io()
@@ -39,7 +39,7 @@ export default class Main extends Phaser.State {
       // this.opponentBoard.background.destroy()
       // this.opponentBoard.hideSettings()
     } else {
-      this.board = new Board(this.game, SCALERATIO, this.game.world.centerX, this.game.world.centerY)
+      this.board = new Game(this.game, SCALERATIO, this.game.world.centerX, this.game.world.centerY)
     }
   }
 
