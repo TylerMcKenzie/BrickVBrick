@@ -28,7 +28,8 @@ var PORT = process.env.PORT || 3000;
 var sessionOptions = {
   secret: 'surehopethecanadianslikethis',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  maxAge: 5000
 };
 
 // Initialize EXPRESS APP -- Was going to use basic http routing but Express is faster to setup --

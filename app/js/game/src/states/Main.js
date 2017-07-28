@@ -1,6 +1,6 @@
 import { COLORS, SIZES } from '../constants'
-import Board from '../objects/Board'
 import io from 'socket.io-client'
+import Game from '../objects/Game'
 
 let { SCALERATIO } = SIZES
 

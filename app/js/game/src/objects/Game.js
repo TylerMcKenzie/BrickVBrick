@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const { BRICKSIZE } = SIZES
 
-export default class Board {
+export default class Game {
   constructor(game, brickScale, x, y) {
     this.game = game
     this.boardRows = []
