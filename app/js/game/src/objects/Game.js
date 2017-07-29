@@ -465,7 +465,7 @@ export default class Game {
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
 
     // Save User score
-    axios.post('/user/score/new', { score: this.playerScore })
+    axios.post('/user/score/new', { score: this.playerScore }, { headers: {'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").getAttribute('content')} })
          .then(res => {
            alert("Thanks for playing!")
            window.location.replace('/profile')

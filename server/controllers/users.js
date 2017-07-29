@@ -63,7 +63,7 @@ module.exports = {
                })
   },
   retrieve: function(req, res) {
-    if(req.user.id == req.params.id) {
+    if(req.user.id === req.params.id) {
       res.redirect('/profile');
     } else {
       return User.findById(req.params.id)
