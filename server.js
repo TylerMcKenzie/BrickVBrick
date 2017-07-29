@@ -38,9 +38,9 @@ var sessionOptions = {
   }
 };
 
-if(env !== 'development') {
-  sessionOptions.cookie.secure = true
-}
+// if(env !== 'development') {
+//   sessionOptions.cookie.secure = true
+// }
 
 // Initialize EXPRESS APP -- Was going to use basic http routing but Express is faster to setup --
 var app = express();
