@@ -3,13 +3,16 @@ var express = require('express');
 
 // Sessions
 var session = require('express-session');
-// var cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser');
 
 // Handles auth signin and signout
 var passport = require('passport');
 
 // Flash to send messages to client
 var flash = require('connect-flash');
+
+// CSRF Protection
+var csrf = require('csurf');
 
 // Body parser parses xhr request data to req.body for easy usage
 var bodyParser = require('body-parser');
@@ -29,8 +32,15 @@ var sessionOptions = {
   secret: 'surehopethecanadianslikethis',
   resave: false,
   saveUninitialized: false,
-  maxAge: 5000
+  cookie: {
+    httpOnly: true,
+    maxAge: 3600000
+  }
 };
+
+if(env !== 'development') {
+  sessionOptions.cookie.secure = true
+}
 
 // Initialize EXPRESS APP -- Was going to use basic http routing but Express is faster to setup --
 var app = express();
@@ -84,7 +94,11 @@ app.set('views', path.join(__dirname, 'server/views'));
 // ## Session management ##
 
 // Use cookie parser to parse cookise for express-session
-// app.use(cookieParser());
+app.use(cookieParser());
+
+// Use CSRF tokens to prevent XSS attacks
+app.use(csrf({ cookie: true }));
+
 
 // Set express-session secret with SESSION OPTIONS
 app.use(session(sessionOptions));

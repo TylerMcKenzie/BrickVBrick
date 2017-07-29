@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
       var signInFlash = req.flash('signinMessage');
       var signUpFlash = req.flash('signupMessage');
 
-      res.render('user/signin', { signUpMessage: signUpFlash, signInMessage: signInFlash });
+      res.render('user/signin', { signUpMessage: signUpFlash, signInMessage: signInFlash, token: req.csrfToken() });
     }
   });
 
