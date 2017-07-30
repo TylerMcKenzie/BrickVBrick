@@ -39,12 +39,9 @@ export default class Game {
     this.gameMusic.loop = true
     this.gameMusic.volume = 0.5
 
-    if(!mobile) {
-      this.background = this.makeBackground()
-      this.background.start(false, 5000, 250, 0)
-    }
+  }
 
-
+  start() {
     this.scoreBoard = this.game.add.text(this.posX, this.posY-(100*this.brickScale), `Score: ${this.playerScore}`, { fill: '#fff', fontSize: 60*this.brickScale })
 
     this.settings = {}
@@ -57,10 +54,14 @@ export default class Game {
     this.settingsIcon.inputEnabled = true
     this.settingsIcon.events.onInputDown.add(this.openSettingsModal, this)
 
-
+    if(!mobile) {
+      this.background = this.makeBackground()
+      this.background.start(false, 5000, 250, 0)
+    }
+    
     this.createBoard()
 
-    // this.gameMusic.play()
+    this.gameMusic.play()
   }
 
   hideSettings() {

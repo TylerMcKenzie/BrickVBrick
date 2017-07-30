@@ -16,30 +16,18 @@ export default class Main extends Phaser.State {
     this.game.forceSingleUpdate = true
 
     if(this.multiplayer) {
-      this.myBoard = new Game(this.game, SCALERATIO, this.game.world.centerX/2, this.game.world.centerY)
-      this.myBoard.background.destroy() // Delete this later
-
-      const socket = io()
-
-      socket.on('connectToRoom', function(data) {
-        console.log(data)
-      })
-
-      window.sendMessage = function(id, msg) {
-        console.log(socket.id)
-        socket.emit('message', id, msg)
-      }
-
-      socket.on('send message', function(data) {
-        console.log(data)
-      })
+      this.myGame = new Game(this.game, SCALERATIO, this.game.world.centerX/2, this.game.world.centerY)
+      this.myGame.background.destroy() // Delete this later
+      this.myGame.start()
 
       // this.opponentBoard = new Board(this.game, SCALERATIO, this.game.world.centerX*1.5, this.game.world.centerY)
       // this.opponentBoard.disableBoardInput()
       // this.opponentBoard.background.destroy()
       // this.opponentBoard.hideSettings()
     } else {
-      this.board = new Game(this.game, SCALERATIO, this.game.world.centerX, this.game.world.centerY)
+      this.soloGame = new Game(this.game, SCALERATIO, this.game.world.centerX, this.game.world.centerY)
+
+      this.soloGame.start()
     }
   }
 

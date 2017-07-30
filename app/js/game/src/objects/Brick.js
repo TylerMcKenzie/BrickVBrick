@@ -37,6 +37,7 @@ export default class Brick {
 
   changePosition(pos) {
     let { x, y } = pos
+
     if(!this.isEmpty()) {
       this.tweenTo(x, y)
     } else {
@@ -47,7 +48,6 @@ export default class Brick {
 
     this.x = x
     this.y = y
-
   }
 
   runDestroyAnim() {
