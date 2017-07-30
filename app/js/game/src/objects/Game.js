@@ -58,10 +58,10 @@ export default class Game {
       this.background = this.makeBackground()
       this.background.start(false, 5000, 250, 0)
     }
-    
+
     this.createBoard()
 
-    this.gameMusic.play()
+    // this.gameMusic.play()
   }
 
   hideSettings() {
@@ -96,14 +96,17 @@ export default class Game {
     let musicMenuText = this.game.add.text(menuPosX+menu.centerX-(175*this.brickScale), menuPosY+menu.centerY-(155*this.brickScale), `Music`, { fill: '#427a8b', fontSize: 60*this.brickScale })
     modalGroup.add(musicMenuText)
 
-    let soundMenuText = this.game.add.text(menuPosX+menu.centerX-(175*this.brickScale), menuPosY+menu.centerY+(100*this.brickScale), `Sound`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    let soundMenuText = this.game.add.text(menuPosX+menu.centerX-(175*this.brickScale), menuPosY+menu.centerY+(75*this.brickScale), `Sound`, { fill: '#427a8b', fontSize: 60*this.brickScale })
     modalGroup.add(soundMenuText)
 
     let musicSettingText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+menu.centerY-(155*this.brickScale), `${this.settings.music}`, { fill: '#427a8b', fontSize: 60*this.brickScale })
     modalGroup.add(musicSettingText)
 
-    let soundSettingText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+menu.centerY+(100*this.brickScale), `${this.settings.sound}`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    let soundSettingText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+menu.centerY+(75*this.brickScale), `${this.settings.sound}`, { fill: '#427a8b', fontSize: 60*this.brickScale })
     modalGroup.add(soundSettingText)
+
+    let quitSettingText = this.game.add.text(menuPosX+menu.centerX-(75*this.brickScale), menuPosY+menu.centerY+(215*this.brickScale), `Quit`, { fill: '#427a8b', fontSize: 60*this.brickScale })
+    modalGroup.add(quitSettingText)
 
     musicSettingText.inputEnabled = true
     musicSettingText.events.onInputDown.add(this.toggleSetting.bind(this, 'music'))
@@ -113,6 +116,10 @@ export default class Game {
 
     closeMenuButton.inputEnabled = true
     closeMenuButton.events.onInputDown.add(this.closeSettingsMenu.bind(this, modalGroup))
+
+    quitSettingText.inputEnabled = true
+    quitSettingText.events.onInputDown.add(this.openQuitModal.bind(this))
+
   }
 
   toggleSetting(setting, textNode) {
@@ -137,10 +144,50 @@ export default class Game {
     this.createSettingsModal()
   }
 
+  openQuitModal() {
+    let modalGroup = this.game.add.group()
+    modalGroup.destroyChildren = true
+
+    let width = 700*this.brickScale
+    let height = 400*this.brickScale
+    let menu = this.game.add.graphics(0,0)
+
+    let menuPosX = this.game.world.centerX-(width/2)
+    let menuPosY = this.game.world.centerY-(height/2)
+
+    menu.beginFill(0x39bb8f)
+    menu.drawRect(menuPosX, menuPosY, width, height)
+    menu.endFill()
+    menu.beginFill(0xffffff)
+    menu.drawRect(menuPosX+(15*this.brickScale), menuPosY+(15*this.brickScale), width-(30*this.brickScale), height-(30*this.brickScale))
+    menu.endFill()
+
+    modalGroup.add(menu)
+
+    let quitText = this.game.add.text(menuPosX+(100*this.brickScale), menuPosY+(75*this.brickScale), 'Are you sure?', { fill: '#427a8b', fontSize: 75*this.brickScale})
+    modalGroup.add(quitText)
+
+    let yesText = this.game.add.text(menuPosX+menu.centerX-(150*this.brickScale), menuPosY+(225*this.brickScale), 'Yes', { fill: '#427a8b', fontSize: 65*this.brickScale})
+    modalGroup.add(yesText)
+
+    let noText = this.game.add.text(menuPosX+menu.centerX+(75*this.brickScale), menuPosY+(225*this.brickScale), 'No', { fill: '#427a8b', fontSize: 65*this.brickScale})
+    modalGroup.add(noText)
+
+    noText.inputEnabled = true
+    noText.events.onInputDown.add(this.closeQuitMenu.bind(this, modalGroup))
+
+    yesText.inputEnabled = true
+    yesText.events.onInputDown.add(this.quit.bind(this))
+  }
+
   closeSettingsMenu(modal) {
     modal.destroy()
 
     this.enableBoardInput()
+  }
+
+  closeQuitMenu(modal) {
+    modal.destroy()
   }
 
   makeBackground() {
@@ -473,5 +520,9 @@ export default class Game {
          })
          .catch(err => { console.log(err) })
 
+  }
+
+  quit() {
+    window.location.replace('/profile')
   }
 }
