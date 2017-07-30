@@ -121,12 +121,12 @@ require('./server/routes')(app, passport);
 
 // SocketIo for WebSockets
 var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+// var io = require('socket.io').listen(server);
 // Games List
 var gameList = []
 
 
-io.on('connection', function(socket) {
+// io.on('connection', function(socket) {
   // console.log('Client -- %s -- connected to the server', socket.id);
 
   // socket.on('make game', function() {
@@ -162,7 +162,7 @@ io.on('connection', function(socket) {
   // socket.on('disconnect', function() {
   //   io.sockets.in('room-'+roomNum).emit('playerDisconnect');
   // })
-})
+// })
 
 
 // Start server listening on the PORT variable
