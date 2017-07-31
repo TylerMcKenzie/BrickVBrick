@@ -1,5 +1,5 @@
 # BrickVBrick
-Competative Brick Smashing Game
+Competitive Brick Smashing Game
 
 ## Prereqs
 
