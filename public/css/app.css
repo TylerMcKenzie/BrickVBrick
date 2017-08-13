@@ -46,12 +46,12 @@ body {
   flex-direction: column;
   height: 100vh; }
   .user-forms-container .swap-forms {
-    margin-top: 3rem; }
+    margin-top: 2rem;
+    margin-bottom: 1.5rem; }
   .user-forms-container .signin-container, .user-forms-container .signup-container {
     background-color: #427a8b;
     width: 33%;
     min-width: 500px;
-    height: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
