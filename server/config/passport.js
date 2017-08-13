@@ -31,12 +31,16 @@ module.exports = (passport) => {
   function(req, email, password, done) {
     User.findOne({ // search database for user matching email
       where: {
-        email: email
+        $or: [{ email: email }, {username: req.body.username}]
       }
     })
     .then((user) => {
       if(user) { // if user is found return flash message
-        done(null, false, req.flash('signupMessage', 'That email already exists.'))
+        if(user.username === req.body.username) {
+          done(null, false, req.flash('signupMessage', 'That username is  already taken.'))
+        } else {
+          done(null, false, req.flash('signupMessage', 'That email already  is taken.'))
+        }
       } else {
         if(!req.body.username) {
           return done(null, false, req.flash('signupMessage', 'Username cannot be blank.'));
