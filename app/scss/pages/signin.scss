@@ -6,14 +6,15 @@
   height: 100vh; // vh are view height units. don't use ever except here cuz reasons
 
   .swap-forms {
-    margin-top: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .signin-container, .signup-container {
     background-color: $teal;
     width: 33%;
     min-width: 500px;
-    height: 50%;
+    // height: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
