@@ -121,48 +121,70 @@ require('./server/routes')(app, passport);
 
 // SocketIo for WebSockets
 var server = require('http').createServer(app);
-// var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server);
 // Games List
-var gameList = []
+var gameList = [];
+// var User = require('./server/models').User;
 
+io.on('connection', function(socket) {
+  console.log('Client -- %s -- connected to the server', socket.id);
 
-// io.on('connection', function(socket) {
-  // console.log('Client -- %s -- connected to the server', socket.id);
+  socket.on('make game', function() {
+    var gameId = (Math.random()+1).toString(32).slice(2,18);
 
-  // socket.on('make game', function() {
-  //   var gameId = (Math.random()+1).toString(32).slice(2,18);
+    var game = {
+        gameId: gameId,
+        playerOne: socket.id,
+        playerTwo: null
+    }
 
-  //   var game = {
-  //       gameId: gameId,
-  //       playerOne: socket.id,
-  //       playerTwo: null
-  //   }
+    gameList.push(game)
 
-  //   gameList.push(game)
+    io.emit('waiting for opponent')
+  })
 
-  //   io.emit('waiting for opponent')
-  // })
+  socket.on('join game', function(playerId) {
+    if(gameList.length) {
+      for(var i=0; i<gameList.length;i++) {
+        if(!gameList[i].playerTwo) {
+          gameList.playerTwo = socket.id
 
-  // socket.on('join game', function(playerId) {
-  //   if(gameList.length) {
-  //     for(var i=0; i<gameList.length;i++) {
-  //       if(!gameList[i].playerTwo) {
-  //         gameList.playerTwo = socket.id
+          io.emit('start game', gameList[i])
 
-  //         io.emit('start game', gameList[i])
-
-  //         break;
-  //       }
-  //     }
-  //   } else {
-  //     socket.emit('make game')
-  //   }
-  // })
+          break;
+        }
+      }
+    } else {
+      socket.emit('make game')
+    }
+  })
 
   // socket.on('disconnect', function() {
   //   io.sockets.in('room-'+roomNum).emit('playerDisconnect');
   // })
-// })
+
+  // Manage User score to prevent cheating
+  var managedScores = [];
+  socket.on('start-game', function(stats) {
+    // console.log(Date.now() - stats.currentTime)
+    // console.log(stats)
+
+    managedScores.push(stats)
+  });
+
+  socket.on('update-score', function(updatedStats) {
+    managedScores.map(function(score) {
+      if(score.id === updatedStats.id) {
+        score.score = updatedStats.score;
+        score.updateTime = Date.now();
+      }
+    });
+  })
+
+  // socket.on("game-over", function() {
+  //
+  // })
+})
 
 
 // Start server listening on the PORT variable

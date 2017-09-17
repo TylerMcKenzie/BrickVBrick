@@ -2,8 +2,10 @@ import Brick from './Brick'
 import PowerUp from './PowerUp'
 import { SIZES, mobile } from '../constants'
 import axios from 'axios'
+import io from 'socket.io-client'
 
 const { BRICKSIZE } = SIZES
+const socket = io()
 
 export default class Game {
   constructor(game, brickScale, x, y) {
@@ -62,6 +64,14 @@ export default class Game {
     this.createBoard()
 
     // this.gameMusic.play()
+
+    let gameStats = {
+      id: socket.id,
+      currentTime: Date.now(),
+      score: this.playerScore
+    }
+
+    socket.emit('start-game', gameStats);
   }
 
   hideSettings() {
@@ -287,6 +297,8 @@ export default class Game {
     this.runScoreAnim(bonusScore)
 
     this.playerScore += bonusScore
+
+    socket.emit("update-score", { id: socket.id, score: this.playerScore, currentTime: Date.now() })
 
     this.updateScoreBoard()
   }
