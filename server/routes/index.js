@@ -78,7 +78,7 @@ module.exports = function(app, passport) {
   app.delete('/user/:id', isSignedIn, usersController.deactivate);
 
   // Add Score to User
-  app.post('/user/score/new', isSignedIn, usersController.addScore);
+  // app.post('/user/score/new', isSignedIn, usersController.addScore);
 
   // ## SCORES ROUTES ##
 

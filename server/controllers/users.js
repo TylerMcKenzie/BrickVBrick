@@ -31,7 +31,7 @@ module.exports = {
                  }
 
                 //  Build empty score and add data
-                 if(req.body.score && !isNaN(req.body.score)) {
+                 if(req.body.score && !isNaN(req.body.score) && req.body.score >= 0) {
                    var score = Score.build();
 
 
@@ -39,7 +39,7 @@ module.exports = {
                    score.date = new Date()
 
                    if(user.highScore < req.body.score) { // If this score is new highscore update user
-                     user.update({highScore: score.score})
+                     user.update({ highScore: score.score })
                    }
 
                    // If score saves then associate it with the current user in session and catch all errs for debug
