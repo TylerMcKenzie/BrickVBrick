@@ -167,18 +167,17 @@ io.on('connection', function(socket) {
 
   // Manage User score to prevent cheating
 
-  var maxPossibleScoreUpdate = 60;
+  var maxPossibleScoreUpdate = 60
 
   socket.on('start-game', function(stats) {
     socket.stats = stats
   });
 
   socket.on('update-score', function(updatedStats) {
-    if(updatedStats.score - socket.stats.score < maxPossibleScoreUpdate) {
+    if(updatedStats.score - socket.stats.score < maxPossibleScoreUpdate && updatedStats.score > 0) {
       socket.stats.score = updatedStats.score
       socket.stats.currentTime = Date.now()
     }
-    console.log(socket.stats.score)
   })
 
   socket.on("game-over", function(finalStats) {
@@ -191,6 +190,10 @@ io.on('connection', function(socket) {
 
           score.score = socket.stats.score
           score.date = Date.now()
+
+          if(user.highScore < score.score) {
+            user.update({ highScore: score.score })
+          }
 
           score.save()
                .then(function(score) {

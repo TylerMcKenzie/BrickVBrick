@@ -63,7 +63,7 @@ export default class Game {
 
     this.createBoard()
 
-    // this.gameMusic.play()
+    this.gameMusic.play()
 
     let gameStats = {
       id: socket.id,
