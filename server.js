@@ -164,26 +164,23 @@ io.on('connection', function(socket) {
   // })
 
   // Manage User score to prevent cheating
-  var managedScores = [];
-  socket.on('start-game', function(stats) {
-    // console.log(Date.now() - stats.currentTime)
-    // console.log(stats)
 
-    managedScores.push(stats)
+  var maxPossibleScoreUpdate = 60;
+
+  socket.on('start-game', function(stats) {
+    socket.stats = stats
   });
 
   socket.on('update-score', function(updatedStats) {
-    managedScores.map(function(score) {
-      if(score.id === updatedStats.id) {
-        score.score = updatedStats.score;
-        score.updateTime = Date.now();
-      }
-    });
+    if(updatedStats.score - socket.stats.score < maxPossibleScoreUpdate) {
+      socket.stats.score = updatedStats.score
+    }
   })
 
-  // socket.on("game-over", function() {
-  //
-  // })
+  socket.on("game-over", function(finalStats) {
+    console.log(finalStats)
+    console.log(socket.stats)
+  })
 })
 
 

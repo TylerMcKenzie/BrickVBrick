@@ -298,7 +298,7 @@ export default class Game {
 
     this.playerScore += bonusScore
 
-    socket.emit("update-score", { id: socket.id, score: this.playerScore, currentTime: Date.now() })
+    socket.emit("update-score", { score: this.playerScore, currentTime: Date.now() })
 
     this.updateScoreBoard()
   }
@@ -525,13 +525,14 @@ export default class Game {
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
 
     // Save User score
-    axios.post('/user/score/new', { score: this.playerScore }, { headers: {'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").getAttribute('content')} })
-         .then(res => {
-           alert("Thanks for playing!")
-           window.location.replace('/profile')
-         })
-         .catch(err => { console.log(err) })
+    // axios.post('/user/score/new', { score: this.playerScore }, { headers: {'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").getAttribute('content')} })
+    //      .then(res => {
+    //        alert("Thanks for playing!")
+    //        window.location.replace('/profile')
+    //      })
+    //      .catch(err => { console.log(err) })
 
+    socket.emit("game-over", { currentTime: Date.now(), score: this.playerScore })
   }
 
   quit() {
