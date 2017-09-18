@@ -124,7 +124,9 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 // Games List
 var gameList = [];
-// var User = require('./server/models').User;
+
+var User = require('./server/models').User;
+var Score = require('./server/models').Score;
 
 io.on('connection', function(socket) {
   console.log('Client -- %s -- connected to the server', socket.id);
@@ -174,12 +176,36 @@ io.on('connection', function(socket) {
   socket.on('update-score', function(updatedStats) {
     if(updatedStats.score - socket.stats.score < maxPossibleScoreUpdate) {
       socket.stats.score = updatedStats.score
+      socket.stats.currentTime = Date.now()
     }
+    console.log(socket.stats.score)
   })
 
   socket.on("game-over", function(finalStats) {
-    console.log(finalStats)
-    console.log(socket.stats)
+    if(finalStats.score === socket.stats.score) {
+      User.find({where: {
+        email: socket.stats.email
+      }}).then(function(user) {
+        if(user) {
+          var score = Score.build()
+
+          score.score = socket.stats.score
+          score.date = Date.now()
+
+          score.save()
+               .then(function(score) {
+                 user.addScore(score)
+                     .then(function(user) {
+                       console.log("Saved!!")
+                       socket.emit("game-saved")
+                     })
+                     .catch(function(err) {
+
+                     })
+               })
+        }
+      })
+    }
   })
 })
 

@@ -5,7 +5,7 @@ module.exports = {
   },
   start: function(req, res) {
     // Render Game Play layout
-    res.render('game/play', { token: req.csrfToken() });
+    res.render('game/play', { token: req.csrfToken(), email: req.user.email });
   },
   multiplayer: function(req, res) {
     // Render Multiplayer Layout

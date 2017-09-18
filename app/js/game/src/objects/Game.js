@@ -67,6 +67,7 @@ export default class Game {
 
     let gameStats = {
       id: socket.id,
+      email: document.querySelector("meta[name='email']").getAttribute('content'),
       currentTime: Date.now(),
       score: this.playerScore
     }
@@ -231,6 +232,9 @@ export default class Game {
       // Increment clicks
       this.moves++
 
+      // Add to score
+      this.addScore(score)
+
       if(this.moves === 2) {
         if(this.isGameOver()) {
           this.gameOver();
@@ -245,9 +249,6 @@ export default class Game {
 
       // Move colors down
       this.dropColumns()
-
-      // Add to score
-      this.addScore(score)
     }
   }
 
@@ -298,9 +299,9 @@ export default class Game {
 
     this.playerScore += bonusScore
 
-    socket.emit("update-score", { score: this.playerScore, currentTime: Date.now() })
-
     this.updateScoreBoard()
+
+    socket.emit("update-score", { score: this.playerScore, currentTime: Date.now() })
   }
 
   updateScoreBoard() {
@@ -523,16 +524,16 @@ export default class Game {
 
     // Use game board because Im lazy yo
     this.scoreBoard.text = `Game Over\nFinal Score: ${this.playerScore}`
+    this.scoreBoard.y = this.posY-(175*this.brickScale)
 
     // Save User score
-    // axios.post('/user/score/new', { score: this.playerScore }, { headers: {'X-CSRF-Token': document.querySelector("meta[name='csrf-token']").getAttribute('content')} })
-    //      .then(res => {
-    //        alert("Thanks for playing!")
-    //        window.location.replace('/profile')
-    //      })
-    //      .catch(err => { console.log(err) })
 
     socket.emit("game-over", { currentTime: Date.now(), score: this.playerScore })
+
+    alert("Thanks for playing!")
+    socket.on("game-saved", function() {
+      window.location.replace('/profile');
+    })
   }
 
   quit() {
